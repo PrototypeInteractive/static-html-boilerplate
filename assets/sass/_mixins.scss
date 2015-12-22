@@ -1,0 +1,774 @@
+
+$mq-extend-flag: true !global;
+//*****************************************
+//  UTILITIES
+//*****************************************
+@mixin cf() {
+    &:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+%pie {
+    @if( $ie8-support) {
+        #{$ie8-class} & {
+            behavior: url($pie);
+        }
+    }
+}
+
+@mixin pie() {
+    @if( $ie8-support and $mq-extend-flag) {
+        @extend %pie;
+    }
+}
+
+//*****************************************
+//  POSITIONING
+//*****************************************
+@mixin center-hor( $offset: 0) {
+    @include left(50%);
+    @include ltr {
+        @include transform( translate(-50%));
+    }
+    @include rtl {
+        @include transform( translate(50%));
+    }
+    @if( $offset !=0) {
+         @include margin-left($offset);
+    }
+}
+
+@mixin center-vrt( $offset: 0) {
+    top: 50%;
+    @include transform( translate( 0, -50%));
+    @if( $offset !=0) {
+        margin-top: $offset;
+    }
+}
+
+@mixin center( $offset-x: 0, $offset-y: 0) {
+    top: 50%;
+    left: 50%;
+    @include transform( translate( -50%, -50%));
+    @if( $offset-x !=0) {
+        margin-left: $offset-x;
+    }
+    @if( $offset-y !=0) {
+        margin-top: $offset-y;
+    }
+}
+
+@mixin space( $selector, $space, $one-line: false, $from: 'left') {
+    @if (space !=0) {
+        @if ($one-line==false) {
+            @if ($from=='left') {
+                margin-left: -$space;
+            }
+            @else {
+                margin-right: -$space;
+            }
+        }
+        #{$selector} {
+            @if ($from=='left') {
+                margin-left: $space;
+                @if ($one-line==true) {
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+            @else {
+                margin-right: $space;
+                @if ($one-line==true) {
+                    &:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+//*****************************************
+//  COMMON ELEMENTS
+//*****************************************
+@mixin menu() {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style-type: none;
+}
+
+@mixin menu-float( $direction: left) {
+    @include menu;
+    @include cf;
+    li {
+        float: $direction;
+    }
+}
+
+@mixin menu-inblock( $font-size: 16px) {
+    @include menu;
+    font-size: 0;
+    li {
+        display: inline-block;
+        font-size: $font-size;
+    }
+}
+
+@mixin inblock-ch( $selector, $font-size: 16px) {
+    font-size: 0;
+    #{$selector} {
+        display: inline-block;
+        font-size: $font-size;
+    }
+}
+
+@mixin overlay( $color, $zindex: 1) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: $color;
+    z-index: $zindex;
+}
+
+@mixin foverlay( $color, $zindex: 1) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: $color;
+    z-index: $zindex;
+}
+
+//*****************************************
+//  COMMON GROUPS OF PROPERTIES
+//*****************************************
+@mixin hide-text() {
+    direction: ltr;
+    text-indent: -9999px;
+    text-align: left;
+}
+
+@mixin cover() {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+@mixin contain() {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+@mixin font-params( $size, $line, $color, $decoration: null) {
+    font-size: $size;
+    line-height: $line;
+    color: $color;
+    text-decoration: $decoration;
+}
+
+@mixin unselectable() {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+@mixin opacity( $opacity) {
+    $opacity-string: #{$opacity};
+    $opacity-length: str-length( $opacity-string);
+    @if( str-slice( $opacity-string, $opacity-length)=='%') {
+        $opacity: str-slice( $opacity-string, 1, $opacity-length - 1);
+        $opacity: number( $opacity) / 100;
+    }
+    @if( $opacity > 1) {
+        $opacity: $opacity / 100;
+    }
+    opacity: $opacity;
+    @if( $ie8-support) {
+        #{$ie8-class} & {
+            @if $opacity==1 {
+                filter: unquote("progid:DXImageTransform.Microsoft.Alpha(enabled=false)");
+            }
+            @else {
+                filter: unquote("progid:DXImageTransform.Microsoft.Alpha(Opacity=#{round($opacity * 100)})");
+            }
+        }
+    }
+}
+
+@mixin bgc( $color) {
+    background-color: $color;
+    @if( $ie8-support) {
+        $color-str: #{$color};
+        @if( str-index( $color-str, 'rgba')) {
+            #{$ie8-class} & {
+                -pie-background: $color;
+                @include pie;
+            }
+        }
+    }
+}
+
+
+/**
+ *  USAGE
+ *  $image: file name WITH extension (even when using sprites)
+ *  $bg-size: explicitly applied background size for svg images
+ *
+ *  Example:
+ *  @include bgi('icon.png');
+ *
+ *  The mixin applies:
+ *   - background from sprite, if project supports sprites, regular image otherwise
+ *   - retina image in media query, if project supports retina, it will be a retina sprite, if project additionally
+ *     supports sprites
+ *   - IF background is in SVG format AND project supports IE8, mixin will apply fallback: regular png image,
+ *     or a sprite fallback, depending on settings.scss
+ */
+
+@mixin bgi( $image, $bg-size: 100%) {
+    // File extension is required. Therefore proceed only if file name is
+    // provided with the extension.
+    $file-name-len: str-length($image);
+    $strip-extension: str-slice($image, 0, $file-name-len - 4);
+    @if( str-index($image, '.') !=null and str-index($image, '.') < $file-name-len) {
+        // SPRITES
+        @if( $sprites) {
+            @if( $mq-extend-flag) {
+                @extend .#{$sprites-name}-#{$strip-extension};
+            }
+            @else {
+                background-image: $sprites-map;
+                @include sprite-resize-percent($sprites-map, unquote($strip-extension), 100);
+            }
+            @if( $retina) {
+                @include retina {
+                    background-image: $retina-sprites-map;
+                    @include sprite-resize-percent($retina-sprites-map, unquote($strip-extension), 50);
+                }
+            }
+        }
+        // REGULAR IMAGES
+        @else {
+            background-image: url(#{$images-path}#{$image});
+            // It's typical that SVG images are of very different size than
+            // the element they are background of.
+            // Therefore, when using SVG always explicitly set background-size.
+            $extension: str-slice($image, $file-name-len - 3, $file-name-len);
+            @if( $extension=='.svg') {
+                background-size: $bg-size;
+                // IE8 doesn't support SVG images, therefore if the project supports IE8
+                // and we wanna use SVG we need to create a fallback.
+                @if( $ie8-support) {
+                    // If we fall back to sprites
+                    @if( $ie8-img-fallback-sprites) {
+                        @if( $mq-extend-flag) {
+                            #{$ie8-class} & {
+                                @extend .#{$ie8-sprites-name}-#{$strip-extension};
+                                background-size: auto;
+                            }
+                        }
+                        @else {
+                            #{$ie8-class} & {
+                                background-image: $ie8sprites-map;
+                                @include sprite-resize-percent($ie8sprites-map, unquote($strip-extension), 100);
+                            }
+                        }
+                    }
+                    // If we fall back to regular images
+                    @else {
+                        #{$ie8-class} & {
+                            background-image: url(#{$ie8-img-path}#{$strip-extension}.png);
+                            background-size: auto;
+                        }
+                    }
+                }
+            }
+            // Regular, non-SVG image.
+            // Requires check if there's retina support.
+            @else {
+                @if( $retina) {
+                    @include retina {
+                        background-image: url(#{$retina-path}#{$image});
+                        background-size: 100%;
+                    }
+                }
+            }
+        }
+    }
+    // Return an error if file name was passed without extension.
+    @else {
+        @warn "#{$image} is an incorrect file name.";
+    }
+}
+
+
+/**
+ *  USAGE
+ *  Applies sprite of a given name, even in media query. Simplest case:
+ *  @include sprite(icon);
+ *
+ *  By default it uses a sprite map set in settings.scss, but can be overriden (second parameter).
+ *  E.g. if we have 'icons' sprites folder, we can use:
+ *  @include sprite(my-icon, $icons-sprites);
+ *
+ *  If project support retina, then by defualt this mixin will also add retina sprite.
+ *  This behavior can be disabled:
+ *  @include sprite(icon, $sprites-sprites, false);
+ *  Also, the retina sprite used by default (the one from settings.scss) can be overriden
+ *  by the third parameter (e.g. if we wanna use sprites from folder 'retina-icons'):
+ *  @include sprite(icon, $sprites-sprites, true, $retina-icons-sprites);
+ */
+
+@mixin sprite( $name, $map: $sprites-map, $ret: true, $rmap: $retina-sprites-map) {
+    @if $mq-extend-flag {
+        @extend .#{sprite-map-name($map)}-#{$name};
+    }
+    @else {
+        background-image: $map;
+        @include sprite-resize-percent($map, $name, 100);
+    }
+    @if $ret and $retina {
+        @include retina {
+            background-image: $rmap;
+            @include sprite-resize-percent($rmap, $name, 50);
+        }
+    }
+}
+
+//*****************************************
+//  CSS3 SHORTHANDS
+//*****************************************
+@mixin border-radius( $r) {
+    -webkit-border-radius: $r;
+    -moz-border-radius: $r;
+    border-radius: $r;
+    @include pie;
+}
+
+@mixin border-radius-long( $tl, $tr, $br, $bl) {
+    -webkit-border-top-left-radius: $tl;
+    -webkit-border-top-right-radius: $tr;
+    -webkit-border-bottom-right-radius: $br;
+    -webkit-border-bottom-left-radius: $bl;
+    -moz-border-radius-topleft: $tl;
+    -moz-border-radius-topright: $tr;
+    -moz-border-radius-bottomright: $br;
+    -moz-border-radius-bottomleft: $bl;
+    border-top-left-radius: $tl;
+    border-top-right-radius: $tr;
+    border-bottom-right-radius: $br;
+    border-bottom-left-radius: $bl;
+    @include pie;
+}
+
+@mixin box-shadow( $s...) {
+    -webkit-box-shadow: $s;
+    -moz-box-shadow: $s;
+    box-shadow: $s;
+    @include pie;
+}
+
+@mixin transform( $t...) {
+    -webkit-transform: $t;
+    -moz-transform: $t;
+    -ms-transform: $t;
+    -o-transform: $t;
+    transform: $t;
+}
+
+@mixin transition( $t...) {
+    -webkit-transition: $t;
+    -moz-transition: $t;
+    -o-transition: $t;
+    transition: $t;
+}
+
+
+/**
+ *  USAGE:
+ *
+ *  First parameter is a collection of colors or color stops. So either of those will work:
+ *  @include gradient((#abc123, #123abc));
+ *  @include gradient((#abc123 0%, #123abc 75%));
+ *  @include gradient((#abc123, #123abc, #123123));
+ *  @include gradient((#abc123, #123abc), vertical);
+ *
+ *  Radial gradients are a special case. Line below is fine:
+ *  @include gradient((#abc123, #123abc), radial);
+ *  However, you can also pass a collection as a type parameter to customize it a bit. Defaults are:
+ *  @include gradient((#abc123, #123abc), (radial, cover, ellipse, center));
+ *  The first element of the collection can actually be anything, doesn't have to be 'radial'.
+ *  Second element is background-size (cover, contain, 100px, 50%, etc.), third is shape
+ *  (can be either ellipse or circle), and last is background-position (center, top left, bottom right, etc.).
+ *  Example:
+ *  @include gradient((#abc123, #123abc), (radial, cover, circle, left top));
+ *  Please note that some parameter combinations (e.g. left top position and size contain) don't work.
+ *
+ *  Please note that collection requires parentheses. So a collection '(...)' passed as a parameter
+ *  is double parentheses: '((...))'.
+ *
+ *  Second parameter is a type of gradient. Allowed values are the expected:
+ *  vertical, horizontal, radial
+ *  But there can also be diagonal, in two versions:
+ *  1. Going from left top to bottom right corner, any of those is valid:
+ *     diagonal, diagonal1, diagonal-left-top, diagonal-top-left, diagonal-lt, diagonal-tl, left-top, top-left
+ *  2. Going from left bottom to top right corner, any of those:
+ *     diagonal2, diagonal-left-bottom, diagonal-bottom-left, diagonal-lb, diagonal-bl, left-bottom, bottom-left
+ *
+ *  Plase note that older IEs support only vertical and horizontal gradients.
+ *
+ *  Finally the third parameter tells how the gradient is rendered on IE8. There are two options:
+ *  filter - uses native IE filters, means that transparency (rgba values) will work, but border-radius
+ *           (even with pie) will be completely ignored
+ *  pie - uses PIE to render the gradient, will work fine with border-radius, but transparency (rgba values)
+ *        will not work
+ */
+
+@mixin gradient( $colors, $type: vertical, $fallback: filter) {
+    // On IE8 fall back to horizontal from diagonal and radial gradients
+    $type-old: $type;
+    @if( $type !=horizontal and $type !=vertical) {
+        $type-old: horizontal;
+    }
+    // Convert all possible things user can input as diagonal gradient type
+    // into value understood by compass mixins
+    $type-new: $type;
+    $diagonal-lt: (diagonal, diagonal1, diagonal-left-top, diagonal-top-left, diagonal-lt, diagonal-tl, left-top, top-left);
+    $diagonal-lb: (diagonal2, diagonal-left-bottom, diagonal-bottom-left, diagonal-lb, diagonal-bl, left-bottom, bottom-left);
+    @if( index( $diagonal-lt, $type)) {
+        $type-new: left top;
+    }
+    @if( index( $diagonal-lb, $type)) {
+        $type-new: left bottom;
+    }
+    // If the collection is passed as a second argument, it's radial
+    @if( length( $type) > 1) {
+        $type-new: radial;
+    }
+    // Other types of gradints:
+    @if( $type==horizontal) {
+        $type-new: left;
+    }
+    @if( $type==vertical) {
+        $type-new: top;
+    }
+    // Set first color as background for browsers that don't support gradients
+    $colors-count: length( $colors);
+    $first: nth( $colors, 1);
+    $first-color: $first;
+    @if( length( $first) > 1) {
+        $first-color: nth( $first, 1);
+    }
+    // If there are at least two colors passed, generate a gradient
+    @if( $colors-count >=2) {
+        // Find last color, first and last are used in IE8 fallback
+        $last: nth( $colors, $colors-count);
+        $last-color: $last;
+        @if( length( $last) > 1) {
+            $last-color: nth( $last, 1);
+        }
+        // If the project supports IE8, fallback to horizontal gradient
+        // with only 2 colors
+        @if( $ie8-support) {
+            #{$ie8-class} & {
+                @if( $fallback==pie) {
+                    @if( $type-old==horizontal) {
+                        $type-old: left;
+                    }
+                    @if( $type-old==vertical) {
+                        $type-old: top;
+                    }
+                    -pie-background: #{'linear-gradient(' + $type-old + ', ' + $first-color + ', ' + $last-color + ')'};
+                    @include pie;
+                }
+                @else if $fallback==filter {
+                    @include filter-gradient($first-color, $last-color, $type-old);
+                }
+            }
+        }
+        // Use compass mixins to generate gradients for modern browsers
+        @if( $type-new !=radial) {
+            @include background-image(linear-gradient($type-new, $colors));
+        }
+        @else {
+            $radial-position: center;
+            $radial-shape: ellipse;
+            $radial-size: cover;
+            @if( length( $type) >=2) {
+                $radial-size: nth($type, 2);
+            }
+            @if( length( $type) >=3) {
+                $radial-shape: nth($type, 3);
+            }
+            @if( length( $type) >=4) {
+                $radial-position: nth($type, 4);
+            }
+            @include background-image(radial-gradient($radial-position, $radial-shape $radial-size, $colors));
+        }
+    }
+}
+
+@mixin placeholder() {
+    ::-webkit-input-placeholder {
+        @content;
+    }
+    :-moz-placeholder {
+        @content;
+    }
+    ::-moz-placeholder {
+        @content;
+    }
+    :-ms-input-placeholder {
+        @content;
+    }
+}
+
+@mixin box-sizing( $sizing) {
+    -webkit-box-sizing: $sizing;
+    -moz-box-sizing: $sizing;
+    box-sizing: $sizing;
+}
+
+@mixin border-box() {
+    &,
+    &:before,
+    &:after {
+        @include box-sizing(border-box);
+    }
+    @if( $ie8-support) {
+        #{$ie8-class} &,
+        #{$ie8-class} &::before,
+        #{$ie8-class} &::after {
+            box-sizing: border-box;
+        }
+    }
+}
+
+//*****************************************
+//  SPRITES
+//*****************************************
+@mixin sprite-image( $map, $sprite) {
+    $path: sprite-path( $map);
+    $url: image-url($path );
+    background-image: $url;
+    background-repeat: no-repeat;
+    background-position: nth(sprite-position( $map, $sprite), 1) nth(sprite-position( $map, $sprite), 2);
+}
+
+@mixin sprite-resize-w( $map, $sprite, $targetWidth) {
+    $spritePath: sprite-path($map);
+    $spriteWidth: image-width($spritePath);
+    $spriteHeight: image-height($spritePath);
+    $width: image-width(sprite-file($map, $sprite));
+    $height: image-height(sprite-file($map, $sprite));
+    $percent: ($targetWidth / $width) * 100;
+    background-size: ceil($spriteWidth * ($percent/100)) ceil($spriteHeight * ($percent/100));
+    width: ceil($width*($percent/100));
+    height: ceil($height*($percent/100));
+    background-position: floor(nth(sprite-position($map, $sprite), 1) * ($percent/100)) floor(nth(sprite-position($map, $sprite), 2) * ($percent/100));
+}
+
+@mixin sprite-resize-h( $map, $sprite, $targetHeight) {
+    $spritePath: sprite-path($map);
+    $spriteWidth: image-width($spritePath);
+    $spriteHeight: image-height($spritePath);
+    $width: image-width(sprite-file($map, $sprite));
+    $height: image-height(sprite-file($map, $sprite));
+    $percent: ($targetHeight / $height) * 100;
+    background-size: ceil($spriteWidth * ($percent/100)) ceil($spriteHeight * ($percent/100));
+    width: ceil($width*($percent/100));
+    height: ceil($height*($percent/100));
+    background-position: floor(nth(sprite-position($map, $sprite), 1) * ($percent/100)) floor(nth(sprite-position($map, $sprite), 2) * ($percent/100));
+}
+
+@mixin sprite-resize( $map, $sprite, $targetWidth, $targetHeight) {
+    $spritePath: sprite-path($map);
+    $spriteWidth: image-width($spritePath);
+    $spriteHeight: image-height($spritePath);
+    $width: image-width(sprite-file($map, $sprite));
+    $height: image-height(sprite-file($map, $sprite));
+    $percentW: ($targetWidth / $width) * 100;
+    $percentH: ($targetHeight / $height) * 100;
+    background-size: ceil($spriteWidth * ($percentW/100)) ceil($spriteHeight * ($percentH/100));
+    width: ceil($width*($percentW/100));
+    height: ceil($height*($percentH/100));
+    background-position: floor(nth(sprite-position($map, $sprite), 1) * ($percentW/100)) floor(nth(sprite-position($map, $sprite), 2) * ($percentH/100));
+}
+
+@mixin sprite-resize-percent($map, $sprite, $percent) {
+    $spritePath: sprite-path($map);
+    $spriteWidth: image-width($spritePath);
+    $spriteHeight: image-height($spritePath);
+    $width: image-width(sprite-file($map, $sprite));
+    $height: image-height(sprite-file($map, $sprite));
+    background-size: ceil($spriteWidth * ($percent/100)) ceil($spriteHeight * ($percent/100));
+    background-position: 0 floor(nth(sprite-position($map, $sprite), 2) * ($percent/100));
+}
+
+//*****************************************
+//  MOBILE / MEDIA QUERIES
+//*****************************************
+@mixin mobile-detect() {
+    display: none;
+    @media (max-width: 1024px) and (orientation: landscape), (max-width: 1024px) and (orientation: portrait) {
+        display: block;
+    }
+}
+
+@mixin mq( $mq) {
+    $found: false;
+    $mq-extend-flag: false !global;
+    @each $name,
+    $breakpoint in $breakpoints {
+        @if $mq==$name {
+            $found: true;
+            @media (max-width: $breakpoint) {
+                @content;
+            }
+        }
+    }
+    @if $found==false {
+        @warn 'Breakpoint #{$mq} doesn\'t exist!';
+    }
+    $mq-extend-flag: false !global;
+}
+
+@mixin retina() {
+    $mq-extend-flag: false !global;
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and ( min--moz-device-pixel-ratio: 1.5), only screen and ( -o-min-device-pixel-ratio: 3/2), only screen and ( min-device-pixel-ratio: 1.5), only screen and (min-resolution: 192dpi) {
+        @content;
+    }
+    $mq-extend-flag: true !global;
+}
+
+//*****************************************
+//  HELPER MIXINS
+//  Not generating CSS properties.
+//*****************************************
+// Converts a string or a CSS unit to number
+// For reference, from here:
+// http://hugogiraudel.com/2014/01/15/sass-string-to-number/
+@function number($string) {
+    // Matrices
+    $strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
+    $numbers: 0 1 2 3 4 5 6 7 8 9;
+    // Result
+    $result: 0;
+    $divider: 0;
+    $minus: false;
+    // Looping through all characters
+    @for $i from 1 through str-length($string) {
+        $character: str-slice($string, $i, $i);
+        $index: index($strings, $character);
+        @if $character=='-' {
+            $minus: true;
+        }
+        @else if $character=='.' {
+            $divider: 1;
+        }
+        @else {
+            @if not $index {
+                $result: if($minus, $result * -1, $result);
+                @return _length($result, str-slice($string, $i));
+            }
+            $number: nth($numbers, $index);
+            @if $divider==0 {
+                $result: $result * 10;
+            }
+            @else {
+                // Move the decimal dot to the left
+                $divider: $divider * 10;
+                $number: $number / $divider;
+            }
+            $result: $result + $number;
+        }
+    }
+    @return if($minus, $result * -1, $result);
+}
+
+// Helper for 'number' mixin
+@function _length($number, $unit) {
+    $strings: 'px' 'cm' 'mm' '%' 'ch' 'pica' 'in' 'em' 'rem' 'pt' 'pc' 'ex' 'vw' 'vh' 'vmin' 'vmax';
+    $units: 1px 1cm 1mm 1% 1ch 1pica 1in 1em 1rem 1pt 1pc 1ex 1vw 1vh 1vmin 1vmax;
+    $index: index($strings, $unit);
+    @if not $index {
+        @warn "Unknown unit `#{$unit}`.";
+        @return false;
+    }
+    @return $number * nth($units, $index);
+}
+
+// Responsive
+@mixin respond-to($media) {
+    @if $media==phone-min {
+        @media only screen and (min-width: $phone-min-size) {
+            @content;
+        }
+    }
+    @else if $media==phone-max {
+        @media only screen and (max-width: $phone-max-size) {
+            @content;
+        }
+    }
+    @else if $media==tablet-min {
+        @media only screen and (min-width: $tablet-min-size) {
+            @content;
+        }
+    }
+    @else if $media==tablet-max {
+        @media only screen and (max-width: $tablet-max-size) {
+            @content;
+        }
+    }
+    @else if $media==laptop-min {
+        @media only screen and (min-width: $laptop-min-size) {
+            @content;
+        }
+    }
+    @else if $media==laptop-max {
+        @media only screen and (max-width: $laptop-max-size) {
+            @content;
+        }
+    }
+    @else if $media==desktop-min {
+        @media only screen and (min-width: $desktop-min-size) {
+            @content;
+        }
+    }
+    @else if $media==desktop-max {
+        @media only screen and (max-width: $desktop-max-size) {
+            @content;
+        }
+    }
+    @if $media==only-phone {
+        @media only screen and (min-width: $phone-min-size) and (max-width: $phone-max-size) {
+            @content;
+        }
+    }
+    @else if $media==only-tablet {
+        @media only screen and (min-width: $tablet-min-size) and (max-width: $tablet-max-size) {
+            @content;
+        }
+    }
+    @else if $media==only-laptop {
+        @media only screen and (min-width: $laptop-min-size) and (max-width: $laptop-max-size) {
+            @content;
+        }
+    }
+    @else if $media==only-desktop {
+        @media only screen and (min-width: $desktop-min-size) and (max-width: $desktop-max-size) {
+            @content;
+        }
+    }
+}

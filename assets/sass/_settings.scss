@@ -1,0 +1,109 @@
+/* ==========================================================================
+	Directions
+/* ========================================================================== */
+
+$start: left;
+$end: right;
+$margin-start: margin-left;
+$margin-end: margin-right;
+
+
+/* ==========================================================================
+	Variables
+/* ========================================================================== */
+
+
+/* Colors */
+
+$color_body_copy: #444;
+$color_link: #26527c;
+$color_opposite: #fff;
+
+/* Font Sizes */
+
+$size_base: 1em;
+
+/* Layout */
+
+$container_width: 1163px;
+$container_padding: 20px;
+$header_height: 100px;
+$footer_height: 100px;
+$content_vert_padding: 20px;
+
+/* Content Images */
+
+$margin: 20px;
+
+/* Sidebar */
+
+$widget_bottom_margin: 20px;
+
+/* Fallbacks / browser support */
+
+$ie8-support: true;
+$ie8-class: '.ie8';
+$pie: 'pie/PIE.htc';
+
+/* ==========================================================================
+	Media queries
+/* ========================================================================== */
+
+
+/* Default bootstrap breakpoints */
+
+$bootstrap-breakpoints: ( md: 1199px, sm: 991px, xs: 767px);
+
+/* Custom breakpoints */
+
+$custom-breakpoints: ( tablet: 1229px, tablet-portrait: 991px, mobile: 767px, mobile-portrait: 420px);
+$breakpoints: $custom-breakpoints;
+
+/* ==========================================================================
+	Images
+/* ========================================================================== */
+
+
+/* Uncomment when using sprites: */
+
+//@import 'images/sprites/*.png';
+//@include all-sprites-sprites;
+//$sprites-map: $sprites-sprites;
+//$sprites-name: 'sprites';
+
+/* Uncomment when using sprites for retina images: */
+
+//@import 'images/sprites2x/*.png';
+//@include all-sprites2x-sprites;
+//$retina-sprites-map: $sprites2x-sprites;
+
+/* Uncomment when using sprites fallback for IE8: */
+
+//@import 'images/ie8sprites/*.png';
+//@include all-ie8sprites-sprites;
+//$ie8-sprites-name: 'ie8sprites';
+
+/* Project supports: */
+
+$retina: false;
+$ie8-img-fallback-sprites: false;
+
+/* Paths: */
+
+$images-path: '/build/images/';
+$retina-path: '/build/images/retina/';
+$ie8-img-path: '/build/images/ie8/';
+$ie9-img-path: '/build/images/ie9';
+
+/* ==========================================================================
+	Responsive
+/* ========================================================================== */
+
+$phone-min-size: 320px;
+$phone-max-size: 767px;
+$tablet-min-size: 768px;
+$tablet-max-size: 991px;
+$laptop-min-size: 992px;
+$laptop-max-size: 1279px;
+$desktop-min-size: 1280px;
+$desktop-max-size: 2520px;
