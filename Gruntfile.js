@@ -21,18 +21,12 @@ module.exports = function(grunt) {
                 dest: 'build/js/scripts.min.js'
             },
         },
-
-
-
-
         sass: {
+            options: {
+                sourceMap: true,
+                outputStyle: 'compressed'
+            },
             dist: {
-                options: {
-                    loadPath: './',
-                    compass: true,
-                    sourcemap: 'none',
-                    style: 'compressed'
-                },
                 files: {
                     'build/css/style.css': 'assets/sass/style.scss'
                 }
@@ -75,7 +69,7 @@ module.exports = function(grunt) {
     // 3. Where we tell Grunt we plan to use this plug-in.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browser-sync');
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
