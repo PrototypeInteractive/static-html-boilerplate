@@ -9,7 +9,7 @@ app.use(compression());
 app.use(serveStatic('dist', {
     'index': ['index.html'],
     'dotfiles': 'ignore',
-    'maxAge': '1d',
+    'maxAge': '7d',
     'setHeaders': setCustomCacheControl
 }));
 
