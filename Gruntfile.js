@@ -18,20 +18,51 @@ module.exports = function(grunt) {
         uglify: {
             build: {
                 src: 'dist/build/js/scripts.js',
-                dest: 'dist/build/js/scripts.min.js'
+                dest: 'dist/build/js/scripts.js'
             },
         },
 
 
         sass: {
             options: {
-                sourceMap: true,
-                outputStyle: 'compressed'
+                sourceMap: true
             },
             dist: {
                 files: {
                     'dist/build/css/style-rtl.css': 'assets/sass/style-rtl.scss',
                     'dist/build/css/style-ltr.css': 'assets/sass/style-ltr.scss'
+                }
+            }
+
+
+        },
+
+        postcss: {
+            dev: {
+                options: {
+                    map: true,
+                    processors: [
+                        require('pixrem')(),
+                        require('autoprefixer')({ browsers: 'last 2 versions' })
+                    ]
+                },
+                src: 'dist/build/css/*.css',
+                dist: {
+                    src: 'dist/build/css/*.css'
+                }
+            },
+            prod: {
+                options: {
+                    map: false,
+                    processors: [
+                        require('pixrem')(),
+                        require('autoprefixer')({ browsers: 'last 2 versions' }),
+                        require('cssnano')({ safe: true })
+                    ]
+                },
+                src: 'dist/build/css/*.css',
+                dist: {
+                    src: 'dist/build/css/*.css'
                 }
             }
         },
@@ -168,6 +199,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-notify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-browser-sync');
@@ -175,7 +207,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-real-favicon');
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
 
-    grunt.registerTask('default', ['bake:dist', 'concat', 'uglify', 'sass', 'browserSync', 'watch']);
+    grunt.registerTask('default', ['bake:dist', 'concat', 'sass', 'postcss:dev', 'browserSync', 'watch']);
+    grunt.registerTask('prod', ['bake:dist', 'concat', 'uglify', 'sass', 'postcss:prod']);
     grunt.registerTask('sitemap', ['xml_sitemap']);
     grunt.registerTask('favicon', ['realFavicon']);
 };

@@ -2,8 +2,7 @@
 ## npm
 #################
 
+dist/
 npm-debug.log
 node_modules/
-assets/lib
-upload/
 your-x-girlfriend/
