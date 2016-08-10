@@ -6,9 +6,9 @@
 
     Nodejs is necessary for bower, grunt, and all the extra modules you might need.
 
-*   #### [Grunt](http://gruntjs.com/): Javascript taskrunner
+*   #### [Gulp](http://gulp.com/): Javascript taskrunner
 
-    You don't deploy your code with 17 style file and 21 javascript file. Alongisde many other things, grunt has some plugins to tidy up your assets.
+    You don't deploy your code with 17 style file and 21 javascript file. Alongisde many other things, gulp has some plugins to tidy up your assets.
 
 ### What's inside
 
@@ -25,11 +25,6 @@
 
 1.  Prepare a coffee
 2.  Install Node.js and NPM
-3.  Use NPM to install Grunt-cli globally
-4.  Run: `npm install` to install the dependancies
-6.  Run: `grunt` to build and start watching
-7.  Start coding!
-
-### Considerations
-*	To create a more professional look and hide the .html extension, create new pages as index.html and put them inside folder
-*	Think modular, create your html engulfed in `<section>` and try as much as possible to style html tags instead of adding classes and ids, think about sitefinity
+3.  Run: `npm i` to install the dependancies
+4.  Run: `gulp` to build and start watching
+5.  Start coding!

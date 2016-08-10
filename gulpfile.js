@@ -8,7 +8,6 @@ var postcss = require('gulp-postcss');
 var pixrem = require('pixrem');
 var autoprefixer = require('autoprefixer');
 var cssnano = require('cssnano');
-var notifier = require('node-notifier');
 var browserSync = require('browser-sync').create();
 var sitemap = require('gulp-sitemap');
 var realFavicon = require('gulp-real-favicon');
@@ -78,25 +77,9 @@ gulp.task('postcss:prod', ['sass'], function() {
         .pipe(gulp.dest('dist/build/css/'));
 });
 
-gulp.task('notify:bake', function() {
-    return notifier.notify({
-        title: 'HTML Built',
-        message: 'HTML Built Successfuly',
-        time: 5000
-    });
-});
-
-gulp.task('notify:sass', function() {
-    return notifier.notify({
-        title: 'SASS Compiled Successfuly',
-        message: 'SASS finished',
-        time: 5000
-    });
-});
-
 gulp.task('watch', function() {
-    gulp.watch(['**/source/**/*.html', '**/partials/**/*.html'], ['bake', 'notify:bake']);
-    gulp.watch(['assets/sass/*.scss'], ['sass', 'notify:sass', 'postcss:dev']);
+    gulp.watch(['source/**/*.html', 'partials/**/*.html'], ['handlebars']);
+    gulp.watch(['assets/sass/*.scss'], ['sass', 'postcss:dev']);
     gulp.watch(['assets/js/*.js'], ['concat', 'uglify']);
 });
 
@@ -182,7 +165,8 @@ gulp.task('handlebars', function() {
         gulp.src(src)
             .pipe(handlebars({}, options))
             .pipe(rename(distFileName))
-            .pipe(gulp.dest(distDir));
+            .pipe(gulp.dest(distDir))
+            .pipe(browserSync.stream());
     });
 });
 
