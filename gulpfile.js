@@ -17,12 +17,12 @@ var path = require("path");
 var rename = require('gulp-rename');
 
 gulp.task('concat', function() {
-    return gulp.src(['assets/js/main.js'])
+    return gulp.src(['assets/js/*.js'])
         .pipe(concat('scripts.js'))
         .pipe(gulp.dest('dist/build/js/'));
 });
 
-gulp.task('uglify', function(cb) {
+gulp.task('uglify', ['concat'], function(cb) {
     pump([
             gulp.src('dist/build/js/scripts.js'),
             uglify(),
@@ -172,6 +172,6 @@ gulp.task('handlebars', function() {
 
 
 gulp.task('default', ['handlebars', 'concat', 'postcss:dev', 'browserSync', 'watch']);
-gulp.task('prod', ['handlebars', 'concat', 'uglify', 'postcss:prod']);
+gulp.task('prod', ['handlebars', 'uglify', 'postcss:prod']);
 gulp.task('sitemap', ['xml_sitemap']);
 gulp.task('favicon', ['realFavicon']);

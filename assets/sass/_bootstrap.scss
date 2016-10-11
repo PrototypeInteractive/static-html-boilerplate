@@ -1,23 +1,15 @@
-/*!
- * Bootstrap v3.3.6 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-// Core variables and mixins
 $grid-gutter-width: 40px;
 $container-large-desktop: (1123px + $grid-gutter-width) !default;
 $screen-lg: 1280px;
 
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
+@import "mixins/grid-framework";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/normalize";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/scaffolding";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/type";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/grid";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/utilities";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/responsive-utilities";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
-@import "bootstrap/normalize";
-@import "bootstrap/scaffolding";
-@import "bootstrap/type";
-@import "bootstrap/code";
-@import "bootstrap/grid";
-@import "bootstrap/component-animations";
-@import "bootstrap/breadcrumbs";
-@import "bootstrap/utilities";
-@import "bootstrap/responsive-utilities";
