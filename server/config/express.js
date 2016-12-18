@@ -55,8 +55,12 @@ module.exports = function(app) {
     debug('Environment: ' + process.env.NODE_ENV);
 
     function setCustomCacheControl(res, path) {
-        if (serveStatic.mime.lookup(path) === 'text/html') {
+        if (process.env.NODE_ENV !== 'production') {
             res.setHeader('Cache-Control', 'public, max-age=0')
+        } else {
+            if (serveStatic.mime.lookup(path) === 'text/html') {
+                res.setHeader('Cache-Control', 'public, max-age=0')
+            }
         }
     }
 }

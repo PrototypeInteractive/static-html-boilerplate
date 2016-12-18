@@ -1,0 +1,10 @@
+*
+**/*
+!/dist
+!/dist/*
+!/dist/**/*
+!/server
+!/server/*
+!/server/**/*
+!/server.js
+!/package.json

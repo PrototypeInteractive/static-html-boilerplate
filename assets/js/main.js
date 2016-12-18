@@ -1,5 +1,4 @@
-//Main javascript functionnality goes here
-var MainController = (function() {
+var Controller = (function() {
     var init = function() {
 
     }
@@ -8,5 +7,5 @@ var MainController = (function() {
     }
 })();
 $(function() {
-    MainController.init();
+    Controller.init();
 });

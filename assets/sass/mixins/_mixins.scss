@@ -11,19 +11,6 @@ $mq-extend-flag: true !global;
     }
 }
 
-%pie {
-    @if( $ie8-support) {
-        #{$ie8-class} & {
-            behavior: url($pie);
-        }
-    }
-}
-
-@mixin pie() {
-    @if( $ie8-support and $mq-extend-flag) {
-        @extend %pie;
-    }
-}
 
 //*****************************************
 //  POSITIONING

@@ -1,6 +1,6 @@
 {
-  "name": "anthony_hopkins",
-  "version": "0.0.5",
+  "name": "ed_harris",
+  "version": "0.0.6",
   "private": true,
   "dependencies": {
     "basic-auth": "^1.0.4",
@@ -15,17 +15,20 @@
     "bootstrap-sass": "^3.3.6",
     "browser-sync": "^2.14.0",
     "cssnano": "^3.7.3",
-    "del": "^2.2.1",
     "gulp": "^3.9.1",
+    "gulp-accessibility": "^3.0.1",
     "gulp-compile-handlebars": "^0.6.1",
     "gulp-concat": "^2.6.0",
+    "gulp-copy": "^1.0.0",
     "gulp-postcss": "^6.1.1",
-    "gulp-real-favicon": "^0.2.1",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.3.2",
+    "gulp-sass": "^3.0.0",
     "gulp-sitemap": "^4.1.1",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-svgo": "^1.0.3",
+    "gulp-svgstore": "^6.1.0",
     "gulp-uglify": "^2.0.0",
+    "gulp-w3cjs": "^1.3.0",
     "jquery": "^3.0.0",
     "node-notifier": "^4.6.0",
     "pixrem": "^3.0.1",
@@ -34,7 +37,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "rm -rd dist || true && gulp",
-    "server": "DEBUG=api nodemon server.js"
+    "server": "NODE_ENV=development DEBUG=api nodemon server.js"
   },
   "description": "Hello",
   "main": "Gruntfile.js",
