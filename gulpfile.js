@@ -111,7 +111,7 @@ gulp.task('browserSync', function() {
     });
 });
 
-gulp.task('xml_sitemap', function() {
+gulp.task('sitemap', function() {
     gulp.src('dist/**/*.html', {
             read: false
         })
@@ -166,6 +166,25 @@ gulp.task('a11y', function() {
 });
 
 
+gulp.task('critical', function(cb) {
+    var critical = require('critical');
+    var files = [
+        ['index.html', 'dist/index.html']
+    ];
+
+    files.forEach(function(filePair) {
+        critical.generate({
+            inline: true,
+            base: 'dist/',
+            src: filePair[0],
+            dest: filePair[1],
+            minify: true,
+            width: 1440,
+            height: 700
+        });
+    });
+
+});
+
 gulp.task('default', ['copy', 'handlebars', 'svgstore', 'concat', 'postcss:dev', 'browserSync', 'watch']);
 gulp.task('prod', ['copy', 'handlebars', 'svgstore', 'uglify', 'postcss:prod']);
-gulp.task('sitemap', ['xml_sitemap']);

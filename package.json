@@ -14,6 +14,7 @@
     "autoprefixer": "^6.4.0",
     "bootstrap-sass": "^3.3.6",
     "browser-sync": "^2.14.0",
+    "critical": "^0.8.1",
     "cssnano": "^3.7.3",
     "gulp": "^3.9.1",
     "gulp-accessibility": "^3.0.1",
