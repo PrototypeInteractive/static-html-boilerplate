@@ -99,7 +99,7 @@ gulp.task('svgstore', ['svgo'], function() {
 
 gulp.task('watch', function() {
     gulp.watch(['source/**/*.html', 'partials/**/*.html'], ['handlebars']);
-    gulp.watch(['assets/sass/*.scss'], ['sass', 'postcss:dev']);
+    gulp.watch(['assets/sass/**/*.scss'], ['sass', 'postcss:dev']);
     gulp.watch(['assets/js/*.js'], ['concat', 'uglify']);
 });
 
