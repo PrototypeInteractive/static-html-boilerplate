@@ -32,7 +32,7 @@
 
 ### Test
 
-The new version includes two necessary tests for your html code, an HTML5 validator (`gulp w3js`) and an accessibility reporter (`gulp a11y`);
+The new version includes two necessary tests for your html code, an HTML5 validator (`gulp w3js`), an accessibility reporter (`gulp a11y`), and a jshint linter (`gulp jshint`);
 
 ### How to deploy
 

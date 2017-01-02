@@ -1,21 +1,24 @@
-var gulp = require('gulp');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var postcss = require('gulp-postcss');
-var pixrem = require('pixrem');
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
-var browserSync = require('browser-sync').create();
-var sitemap = require('gulp-sitemap');
-var handlebars = require('gulp-compile-handlebars');
-var path = require("path");
-var rename = require('gulp-rename');
-var svgstore = require('gulp-svgstore');
-var svgo = require('gulp-svgo');
-var copy = require('gulp-copy');
-var buildpath = 'dist/';
+const gulp = require('gulp');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
+const postcss = require('gulp-postcss');
+const pixrem = require('pixrem');
+const autoprefixer = require('autoprefixer');
+const cssnano = require('cssnano');
+const browserSync = require('browser-sync').create();
+const sitemap = require('gulp-sitemap');
+const handlebars = require('gulp-compile-handlebars');
+const path = require("path");
+const rename = require('gulp-rename');
+const svgstore = require('gulp-svgstore');
+const svgo = require('gulp-svgo');
+const copy = require('gulp-copy');
+const jshint = require('gulp-jshint');
+
+const buildpath = 'dist/';
+
 
 gulp.task('copy', function(cb) {
     var images = gulp.src(['assets/images/**/*'])
@@ -147,14 +150,12 @@ gulp.task('handlebars', function() {
     });
 });
 
-
 gulp.task('w3cjs', function() {
     var w3cjs = require('gulp-w3cjs');
     return gulp.src('dist/**/*.html')
         .pipe(w3cjs())
         .pipe(w3cjs.reporter());
 });
-
 
 gulp.task('a11y', function() {
     var access = require('gulp-accessibility');
@@ -165,6 +166,11 @@ gulp.task('a11y', function() {
         .on('error', console.log);
 });
 
+gulp.task('jshint', function() {
+  return gulp.src('assets/js/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
 
 gulp.task('critical', function(cb) {
     var critical = require('critical');
@@ -183,8 +189,8 @@ gulp.task('critical', function(cb) {
             height: 700
         });
     });
-
 });
 
 gulp.task('default', ['copy', 'handlebars', 'svgstore', 'concat', 'postcss:dev', 'browserSync', 'watch']);
 gulp.task('prod', ['copy', 'handlebars', 'svgstore', 'uglify', 'postcss:prod']);
+gulp.task('test', ['w3cjs', 'a11y', 'jshint']);
