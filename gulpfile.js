@@ -37,9 +37,9 @@ gulp.task('concat', function() {
 });
 
 gulp.task('uglify', ['concat'], function(cb) {
-    return gulp.src('dist/js/scripts.js'),
-        uglify(),
-        gulp.dest('dist');
+    return gulp.src('dist/js/scripts.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('sass', function() {
