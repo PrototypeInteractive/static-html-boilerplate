@@ -20,13 +20,16 @@ const jshint = require('gulp-jshint');
 const buildpath = 'dist/';
 
 
-gulp.task('copy', function(cb) {
-    var images = gulp.src(['assets/images/**/*'])
-        .pipe(copy(buildpath + 'images', { prefix: 2 }));
-    var favicon = gulp.src(['assets/favicon/**/*'])
-        .pipe(copy(buildpath + 'favicon', { prefix: 2 }));
+gulp.task('copy', ['copy:favicon', 'copy:images']);
 
-    return [images, favicon];
+gulp.task('copy:favicon', function(cb) {
+    return gulp.src(['assets/favicon/**/*'])
+        .pipe(copy(buildpath + 'favicon', { prefix: 2 }));
+});
+
+gulp.task('copy:images', function(cb) {
+    return gulp.src(['assets/images/**/*'])
+        .pipe(copy(buildpath + 'images', { prefix: 2 }));
 });
 
 
