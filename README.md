@@ -13,7 +13,7 @@
 ### What's included
 
 *   **assets**: all you javascript and css should sit here
-*   *   **css**: already reference bootstrap sass files, remove the one you don't need
+	*   **css**: already reference bootstrap sass files, remove the one you don't need
     *   **js**: javascript
     *   **favicon**: build your favicons on [realfavicongenerator](http://realfavicongenerator.net/)
 *   **dist**: grunt should take the assets, minify them, and put them inside this folder.
@@ -35,4 +35,4 @@ The new version includes two necessary tests for your html code, an HTML5 valida
 
 ### How to deploy
 
-1.  [Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
+[Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
