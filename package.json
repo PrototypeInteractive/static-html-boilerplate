@@ -35,7 +35,8 @@
     "jshint": "^2.9.4",
     "node-notifier": "^4.6.0",
     "pixrem": "^3.0.1",
-    "pump": "^1.0.1"
+    "pump": "^1.0.1",
+    "svg4everybody": "^2.1.4"
   },
   "scripts": {
     "start": "node server.js",
