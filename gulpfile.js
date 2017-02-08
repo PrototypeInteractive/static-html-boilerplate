@@ -20,7 +20,12 @@ const jshint = require('gulp-jshint');
 const buildpath = 'dist/';
 
 
-gulp.task('copy', ['copy:favicon', 'copy:images']);
+gulp.task('copy', ['copy:favicon','copy:images', 'copy:robots']);
+
+gulp.task('copy:robots', function(cb) {
+    return gulp.src(['assets/robots.txt'])
+        .pipe(copy(buildpath, { prefix: 2 }));
+});
 
 gulp.task('copy:favicon', function(cb) {
     return gulp.src(['assets/favicon/**/*'])
@@ -111,6 +116,7 @@ gulp.task('watch', function() {
     gulp.watch(['source/**/*.html', 'partials/**/*.html'], ['handlebars']);
     gulp.watch(['assets/sass/**/*.scss'], ['sass', 'postcss:dev']);
     gulp.watch(['assets/js/*.js'], ['concat', 'uglify']);
+    gulp.watch(['assets/icons/*.svg'], ['svgstore']);
 });
 
 gulp.task('browserSync', function() {

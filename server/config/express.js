@@ -17,16 +17,21 @@ module.exports = function(app) {
 
     app.use(compression());
 
-    app.use(function(req, res, next) {
-        var user = auth(req);
-        if (user === undefined || user['name'] !== 'prototype' || user['pass'] !== 'prototype') {
-            res.statusCode = 401;
-            res.setHeader('WWW-Authenticate', 'Basic realm="prototype"');
-            res.end('Unauthorized');
-        } else {
-            next();
-        }
-    });
+    if (process.env.NODE_ENV !== 'production') {
+
+        var username = process.env.AUTH_USER || 'prototype';
+        var password = process.env.AUTH_PASS || 'prototype';
+        app.use(function(req, res, next) {
+            var user = auth(req);
+            if (user === undefined || user['name'] !== username || user['pass'] !== password) {
+                res.statusCode = 401;
+                res.setHeader('WWW-Authenticate', 'Basic realm="prototype"');
+                res.end('Unauthorized');
+            } else {
+                next();
+            }
+        });
+    }
 
     app.use(function(req, res, next) {
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,6 +46,13 @@ module.exports = function(app) {
         next();
     });
 
+    app.get('/robots.txt', function(req, res, next) {
+        if (process.env.NODE_ENV !== 'production') {
+            res.end();
+        } else {
+            next();
+        }
+    });
 
     app.use(serveStatic('dist', {
         'index': ['index.html'],
@@ -48,6 +60,10 @@ module.exports = function(app) {
         'maxAge': '7d',
         'setHeaders': setCustomCacheControl
     }));
+
+    app.get('*', function(req, res) {
+        res.status(404).end();
+    });
 
     debug('--------------------------');
     debug('☕️ ');
