@@ -117,6 +117,7 @@ gulp.task('watch', function() {
     gulp.watch(['assets/sass/**/*.scss'], ['sass', 'postcss:dev']);
     gulp.watch(['assets/js/*.js'], ['concat', 'uglify']);
     gulp.watch(['assets/icons/*.svg'], ['svgstore']);
+    gulp.watch(['assets/images/**/*'], ['copy:images']);
 });
 
 gulp.task('browserSync', function() {
