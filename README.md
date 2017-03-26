@@ -8,7 +8,7 @@
 
 *   [Gulp](http://gulp.com/): Javascript taskrunner
 
-    You don't deploy your code with 17 style file and 21 javascript file. Alongisde many other things, gulp has some plugins to tidy up your assets.
+    You don't deploy your code with 17 style file and 21 javascript file. Alongisde many other things, gulp has some plugins to tidy up your assets. gulp will be installed when you install npm modules.
 
 ### What's included
 

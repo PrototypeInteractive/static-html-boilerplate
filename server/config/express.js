@@ -18,7 +18,6 @@ module.exports = function(app) {
     app.use(compression());
 
     if (process.env.NODE_ENV !== 'production') {
-
         var username = process.env.AUTH_USER || 'prototype';
         var password = process.env.AUTH_PASS || 'prototype';
         app.use(function(req, res, next) {
