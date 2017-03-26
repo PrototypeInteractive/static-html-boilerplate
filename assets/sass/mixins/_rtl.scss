@@ -303,3 +303,12 @@
         @content;
     }
 }
+
+@mixin dir-translate3d( $x, $y, $z, $any-transform:scaleZ(1)) {
+    @if $bi-app-direction==ltr {
+        transform: translate3d( $x, $y, $z) $any-transform;
+    }
+    @else {
+        transform: translate3d( -$x, $y, $z) $any-transform;
+    }
+}
