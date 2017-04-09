@@ -17,24 +17,36 @@ const svgo = require('gulp-svgo');
 const copy = require('gulp-copy');
 const jshint = require('gulp-jshint');
 
-const buildpath = 'dist/';
+const buildpath = {
+    main: 'dist/',
+    js: 'dist/js/',
+    css: 'dist/css/',
+    images: 'dist/images/',
+    favicon: 'dist/favicon/'
+}
 
 
-gulp.task('copy', ['copy:favicon','copy:images', 'copy:robots']);
+gulp.task('copy', ['copy:favicon', 'copy:images', 'copy:robots']);
 
 gulp.task('copy:robots', function(cb) {
     return gulp.src(['assets/robots.txt'])
-        .pipe(copy(buildpath, { prefix: 2 }));
+        .pipe(copy(buildpath.main, {
+            prefix: 2
+        }));
 });
 
 gulp.task('copy:favicon', function(cb) {
     return gulp.src(['assets/favicon/**/*'])
-        .pipe(copy(buildpath + 'favicon', { prefix: 2 }));
+        .pipe(copy(buildpath.favicon, {
+            prefix: 2
+        }));
 });
 
 gulp.task('copy:images', function(cb) {
     return gulp.src(['assets/images/**/*'])
-        .pipe(copy(buildpath + 'images', { prefix: 2 }));
+        .pipe(copy(buildpath.images, {
+            prefix: 2
+        }));
 });
 
 
@@ -44,13 +56,13 @@ gulp.task('concat', function() {
             'node_modules/svg4everybody/dist/svg4everybody.js'
         ])
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(buildpath + 'js/'));
+        .pipe(gulp.dest(buildpath.js));
 });
 
 gulp.task('uglify', ['concat'], function(cb) {
-    return gulp.src(buildpath + 'js/scripts.js')
+    return gulp.src(buildpath.js + '/scripts.js')
         .pipe(uglify())
-        .pipe(gulp.dest(buildpath));
+        .pipe(gulp.dest(buildpath.js));
 });
 
 
@@ -59,7 +71,7 @@ gulp.task('sass', function() {
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(buildpath + 'css/'));
+        .pipe(gulp.dest(buildpath.css));
 });
 
 gulp.task('postcss:dev', ['sass'], function() {
@@ -70,11 +82,9 @@ gulp.task('postcss:dev', ['sass'], function() {
         })
     ];
 
-    return gulp.src(buildpath + 'css/*.css')
-        .pipe(sourcemaps.init())
+    return gulp.src(buildpath.css + '*.css')
         .pipe(postcss(processors))
-        .pipe(sourcemaps.write('.'))
-        .pipe(gulp.dest(buildpath + 'css/'))
+        .pipe(gulp.dest(buildpath.css))
         .pipe(browserSync.stream({
             match: "**/*.css"
         }));
@@ -91,9 +101,9 @@ gulp.task('postcss:prod', ['sass'], function() {
         })
     ];
 
-    return gulp.src(buildpath + 'css/*.css')
+    return gulp.src(buildpath.css + '*.css')
         .pipe(postcss(processors))
-        .pipe(gulp.dest(buildpath + 'css/'));
+        .pipe(gulp.dest(buildpath.css))
 });
 
 
@@ -106,16 +116,18 @@ gulp.task('svgo', function() {
 gulp.task('svgstore', ['svgo'], function() {
     return gulp
         .src('assets/icons/*.svg')
-        .pipe(rename({ prefix: 'icon-' }))
+        .pipe(rename({
+            prefix: 'icon-'
+        }))
         .pipe(svgstore())
-        .pipe(gulp.dest(buildpath + 'images'));
+        .pipe(gulp.dest(buildpath.images));
 });
 
 
 gulp.task('watch', function() {
     gulp.watch(['source/**/*.html', 'partials/**/*.html'], ['handlebars']);
-    gulp.watch(['assets/sass/**/*.scss'], ['sass', 'postcss:dev']);
-    gulp.watch(['assets/js/*.js'], ['concat', 'uglify']);
+    gulp.watch(['assets/sass/**/*.scss'], ['postcss:dev']);
+    gulp.watch(['assets/js/**/*.js'], ['concat']);
     gulp.watch(['assets/icons/*.svg'], ['svgstore']);
     gulp.watch(['assets/images/**/*'], ['copy:images']);
 });
@@ -139,7 +151,7 @@ gulp.task('sitemap', function() {
             lastmod: '2016-01-01T09:54:31.000Z',
             priority: '1'
         }))
-        .pipe(gulp.dest('dist/'));
+        .pipe(gulp.dest(buildpath.main));
 });
 
 
@@ -169,14 +181,14 @@ gulp.task('handlebars', function() {
 
 gulp.task('w3cjs', function() {
     var w3cjs = require('gulp-w3cjs');
-    return gulp.src(buildpath + '**/*.html')
+    return gulp.src(buildpath.main + '**/*.html')
         .pipe(w3cjs())
         .pipe(w3cjs.reporter());
 });
 
 gulp.task('a11y', function() {
     var access = require('gulp-accessibility');
-    return gulp.src(buildpath + '**/*.html')
+    return gulp.src(buildpath.main + '**/*.html')
         .pipe(access({
             force: true
         }))
@@ -198,7 +210,7 @@ gulp.task('critical', function(cb) {
     files.forEach(function(filePair) {
         critical.generate({
             inline: true,
-            base: 'dist/',
+            base: buildpath.main,
             src: filePair[0],
             dest: filePair[1],
             minify: true,

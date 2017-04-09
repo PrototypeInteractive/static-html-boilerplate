@@ -26,7 +26,7 @@
 
 1.  Prepare a coffee
 2.  Install Node.js and NPM
-3.  Run: `npm i` to install the dependancies
+3.  Run: `npm i` to install the dependencies
 4.  Run: `gulp` to build and start watching
 5.  Start coding!
 
@@ -42,13 +42,13 @@ Icons are included via an svg sprite, to include and use an icon do the followin
 5. Use it as an svg symbol:
 
 ```
-<svg role="img" width='10' height='10'>
+<svg aria-hidden="true" role="presentation" width='10' height='10'>
     <title>Description</title>
-    <use xlink:href="/ResourcePackages/da/images/icons.svg#icon-name"></use>
+    <use xlink:href="/images/icons.svg#icon-name"></use>
 </svg>
 ```
 
-Note that accessibility tests will consider links as empty if they only have an svg.
+Note that accessibility tests will consider links as empty if they only have an svg. Add a visually hidden span with the text.
 
 ### Test
 
