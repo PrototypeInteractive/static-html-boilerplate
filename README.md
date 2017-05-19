@@ -42,7 +42,7 @@ The new version includes two necessary tests for your html code, an HTML5 valida
 
 #### **0.5.0** - ES6 with babel and webpack
 
-The boilerplate now uses webpack to concatinated and uglify the javascript code (instead of the gulp plugins). This allows better control over the generated code and removes the need to manually add links to the plugins in the required order.
+The boilerplate now uses webpack to concatinate and uglify the javascript code (instead of the gulp plugins). This allows better control over the generated code and removes the need to manually add links to the plugins in the required order.
 
 In the old way, to add a new plugin we had to add the path of the installed module to gulp concat before the files that are using it. instead now, just use the es6 imports to import the plugin when needed.
 
