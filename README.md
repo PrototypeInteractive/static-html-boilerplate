@@ -30,8 +30,51 @@
 4.  Run: `gulp` to build and start watching
 5.  Start coding!
 
+### Test
 
-### Using icons
+The new version includes two necessary tests for your html code, an HTML5 validator (`gulp w3js`), an accessibility reporter (`gulp a11y`), and a jshint linter (`gulp jshint`);
+
+### Deploy
+
+[Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
+
+### Latest changes
+
+#### **0.5.0** - ES6 with babel and webpack
+
+The boilerplate now uses webpack to concatinated and uglify the javascript code (instead of the gulp plugins). This allows better control over the generated code and removes the need to manually add links to the plugins in the required order.
+
+In the old way, to add a new plugin we had to add the path of the installed module to gulp concat before the files that are using it. instead now, just use the es6 imports to import the plugin when needed.
+
+For example, to include slick:
+
+**Old way:**
+
+Inside gulpfile.js
+
+```
+gulp.task('concat', function() {
+    return gulp.src([
++            'node_modules/slick-carousel/slick/slick.js',
+        ])
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest('dist/js/'));
+});
+```
+
+**New way:**
+
+Where the plugin is needed
+
+```
+import slick from 'slick-carousel'
+```
+
+In addition, you can now use [ES6 classes](http://exploringjs.com/es6/ch_classes.html#sec_essentials-classes).
+
+Webpack can be further optimized with multiple entry points and tree shaking based on the project needs.
+
+#### **0.4.0** - Using icons
 
 Icons are included via an svg sprite, to include and use an icon do the following:
 
@@ -49,11 +92,3 @@ Icons are included via an svg sprite, to include and use an icon do the followin
 ```
 
 Note that accessibility tests will consider links as empty if they only have an svg. Add a visually hidden span with the text.
-
-### Test
-
-The new version includes two necessary tests for your html code, an HTML5 validator (`gulp w3js`), an accessibility reporter (`gulp a11y`), and a jshint linter (`gulp jshint`);
-
-### Deploy
-
-[Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)

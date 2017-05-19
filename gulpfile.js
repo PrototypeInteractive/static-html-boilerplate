@@ -1,6 +1,4 @@
 const gulp = require('gulp');
-const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const postcss = require('gulp-postcss');
@@ -16,6 +14,7 @@ const svgstore = require('gulp-svgstore');
 const svgo = require('gulp-svgo');
 const copy = require('gulp-copy');
 const jshint = require('gulp-jshint');
+const webpack = require('webpack');
 
 const buildpath = {
     main: 'dist/',
@@ -50,19 +49,26 @@ gulp.task('copy:images', function(cb) {
 });
 
 
-gulp.task('concat', function() {
-    return gulp.src([
-            'assets/js/**/*.js',
-            'node_modules/svg4everybody/dist/svg4everybody.js'
-        ])
-        .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(buildpath.js));
+gulp.task('webpack', function() {
+    return webpack(require('./webpack.config.dev.js'), function(err, stats) {
+        if (err) {
+            console.error("webpack", err)
+        }
+        console.log("[webpack]", stats.toString({
+            colors: true
+        }));
+    });
 });
 
-gulp.task('uglify', ['concat'], function(cb) {
-    return gulp.src(buildpath.js + '/scripts.js')
-        .pipe(uglify())
-        .pipe(gulp.dest(buildpath.js));
+gulp.task('webpack:prod', function(cb) {
+    return webpack(require('./webpack.config.prod.js'), function(err, stats) {
+        if (err) {
+            console.error("[webpack]", err)
+        }
+        console.log("[webpack]", stats.toString({
+            colors: true
+        }));
+    });
 });
 
 
@@ -127,7 +133,7 @@ gulp.task('svgstore', ['svgo'], function() {
 gulp.task('watch', function() {
     gulp.watch(['source/**/*.html', 'partials/**/*.html'], ['handlebars']);
     gulp.watch(['assets/sass/**/*.scss'], ['postcss:dev']);
-    gulp.watch(['assets/js/**/*.js'], ['concat']);
+    gulp.watch(['assets/js/**/*.js'], ['webpack']);
     gulp.watch(['assets/icons/*.svg'], ['svgstore']);
     gulp.watch(['assets/images/**/*'], ['copy:images']);
 });
@@ -220,6 +226,6 @@ gulp.task('critical', function(cb) {
     });
 });
 
-gulp.task('default', ['copy', 'handlebars', 'svgstore', 'concat', 'postcss:dev', 'browserSync', 'watch']);
-gulp.task('prod', ['copy', 'handlebars', 'svgstore', 'uglify', 'postcss:prod']);
+gulp.task('default', ['copy', 'handlebars', 'svgstore', 'webpack', 'postcss:dev', 'browserSync', 'watch']);
+gulp.task('prod', ['copy', 'handlebars', 'svgstore', 'webpack:prod', 'postcss:prod']);
 gulp.task('test', ['w3cjs', 'a11y', 'jshint']);
