@@ -46,9 +46,9 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/prototypeinteractive/static-html-boilerplate.git"
+    "url": "git+ssh://git@github.com/prototypeinteractive/static-html-boilerplate.git"
   },
-  "author": "Prototype",
+  "author": "Prototype Interactive",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/prototypeinteractive/static-html-boilerplate#readme"
+  "homepage": "https://github.com/prototypeinteractive/static-html-boilerplate#readme"
 }

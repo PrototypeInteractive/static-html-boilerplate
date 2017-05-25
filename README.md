@@ -1,40 +1,39 @@
 # Static HTML Boilerplate
 
+The boilerplate is an opinionated folder structure to help you kick-start your html project. It includes the necessary build tools and configurations and is easily extendable.
+
 ### Requirements
 
 *   [Node.js](http://nodejs.org): for all the magic
 
-    Nodejs is necessary for bower, gulp, and all the extra modules you might need.
-
-*   [Gulp](http://gulp.com/): Javascript taskrunner
-
-    You don't deploy your code with 17 style file and 21 javascript file. Alongisde many other things, gulp has some plugins to tidy up your assets. gulp will be installed when you install npm modules.
-
 ### What's included
 
-*   **assets**: all you javascript and css should sit here
-	*   **css**: already reference bootstrap sass files, remove the one you don't need
-    *   **js**: javascript
-    *   **favicon**: build your favicons on [realfavicongenerator](http://realfavicongenerator.net/)
-    *	**icons**: All svgs put here will be compressed and added in an svg sprite
-*   **dist**: grunt should take the assets, minify them, and put them inside this folder.
-*   **.gitignore**: you should know.
-*   **package.json**: list of all the node and front-end dependecies
-*	**server**: Node.js code for easy, gzipped, and secure static website hosting
+*   [Bootstrap 3](http://getbootstrap.com/): Bootstrap's normalize, grid system, and utility classes are imported by default.
+*   [Webpack](https://webpack.js.org/): With babel, allows you to use ES6 code and modules.
+*   [Handlebars](http://handlebarsjs.com/): Build your html with partials.
+*   [SVG sprites](https://css-tricks.com/svg-sprites-use-better-icon-fonts/): Add your icons in `assets/icons` and use them.
+*	Server: Node.js code for easy, gzipped, and secure static website hosting.
+*   [BrowserSync](https://www.browsersync.io/): As a development server.
+*   [jQuery](http://jquery.com/): jQuery is included as external in webpack.
 
 ### How to proceed
 
 1.  Prepare a coffee
-2.  Install Node.js and NPM
-3.  Run: `npm i` to install the dependencies
-4.  Run: `gulp` to build and start watching
-5.  Start coding!
+1.  Run: `npm i` to install the dependencies
+1.  Run: `gulp` to build and watch
+1.  Start coding!
 
 ### Test
 
-The new version includes two necessary tests for your html code, an HTML5 validator (`gulp w3js`), an accessibility reporter (`gulp a11y`), and a jshint linter (`gulp jshint`);
+The boilerplate includes three necessary tests for your code:
+
+* an HTML5 validator (`gulp w3js`),
+* an accessibility reporter (`gulp a11y`),
+* and a jshint linter (`gulp jshint`).
 
 ### Deploy
+
+You only need to deploy the server code and the dist folder.
 
 [Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
 
@@ -92,3 +91,9 @@ Icons are included via an svg sprite, to include and use an icon do the followin
 ```
 
 Note that accessibility tests will consider links as empty if they only have an svg. Add a visually hidden span with the text.
+
+### Pipeline
+
+* Add imageoptim [CLI](https://github.com/JamieMason/ImageOptim-CLI#installation).
+* Add [semistandard](https://github.com/Flet/semistandard) javascript style guide.
+* Make npm scripts work on windows.
