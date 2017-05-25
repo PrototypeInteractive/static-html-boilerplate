@@ -57,6 +57,7 @@ gulp.task('webpack', function() {
         console.log("[webpack]", stats.toString({
             colors: true
         }));
+        browserSync.reload();
     });
 });
 
