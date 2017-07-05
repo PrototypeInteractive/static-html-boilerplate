@@ -18,6 +18,7 @@ module.exports = {
         }]
     },
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
