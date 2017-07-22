@@ -1,6 +1,6 @@
 {
   "name": "benedict_cumberbatch",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "dependencies": {
     "basic-auth": "^1.0.4",
@@ -17,6 +17,7 @@
     "bootstrap-sass": "^3.3.6",
     "browser-sync": "^2.18.13",
     "critical": "^0.8.4",
+    "cross-env": "^5.0.1",
     "cssnano": "^3.7.3",
     "gulp": "^3.9.1",
     "gulp-accessibility": "^3.0.1",
@@ -34,13 +35,14 @@
     "jquery": "^3.2.1",
     "jshint": "^2.9.5",
     "pixrem": "^3.0.1",
+    "shx": "^0.2.2",
     "svg4everybody": "^2.1.9",
     "webpack": "^3.3.0"
   },
   "scripts": {
     "start": "node server.js",
-    "dev": "rm -rd dist || true && gulp",
-    "server": "NODE_ENV=development DEBUG=api nodemon server.js"
+    "dev": "shx --silent rm -rd dist || true && gulp",
+    "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js"
   },
   "description": "Static HTML Boilerplate",
   "main": "server.js",
