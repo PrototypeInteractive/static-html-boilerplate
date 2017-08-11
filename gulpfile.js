@@ -211,7 +211,7 @@ gulp.task('jshint', function() {
 gulp.task('critical', function(cb) {
     var critical = require('critical');
     var files = [
-        ['index.html', 'dist/index.html']
+        ['index.html', 'index.html']
     ];
 
     files.forEach(function(filePair) {
