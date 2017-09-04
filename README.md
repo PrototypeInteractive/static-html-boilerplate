@@ -35,7 +35,7 @@ The boilerplate includes three necessary tests for your code:
 
 You only need to deploy the server code and the dist folder.
 
-[Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
+[Deploy on AWS EB](https://github.com/PrototypeInteractive/standards/wiki/elasticbeanstalk)
 
 ### Changelog
 
