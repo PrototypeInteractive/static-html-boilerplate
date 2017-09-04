@@ -1,6 +1,7 @@
+/* global document */
 import Global from './global';
 
-document.addEventListener("DOMContentLoaded", function(event) {
-	var g = new Global;
-    g.init();
+document.addEventListener('DOMContentLoaded', () => {
+  const g = new Global();
+  g.init();
 });

@@ -27,9 +27,9 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 The boilerplate includes three necessary tests for your code:
 
-* an HTML5 validator (`gulp w3js`),
-* an accessibility reporter (`gulp a11y`),
-* and a jshint linter (`gulp jshint`).
+* an HTML5 validator (`npm run w3js`),
+* an accessibility reporter (`npm run a11y`),
+* and a eslint linter (airbnb) (`npm run lint`).
 
 ### Deploy
 
@@ -37,7 +37,11 @@ You only need to deploy the server code and the dist folder.
 
 [Deploy on AWS EB](https://devstand.prototype.rocks/standards/eb/)
 
-### Latest changes
+### Changelog
+
+#### **0.5.4** - Added eslint with airbnb
+
+#### **0.5.3** - Windows support in npm scripts
 
 #### **0.5.0** - ES6 with babel and webpack
 
@@ -94,6 +98,4 @@ Note that accessibility tests will consider links as empty if they only have an 
 
 ### Pipeline
 
-* Add imageoptim [CLI](https://github.com/JamieMason/ImageOptim-CLI#installation).
-* Add [semistandard](https://github.com/Flet/semistandard) javascript style guide.
-* Make npm scripts work on windows.
+[ ] Add imageoptim [CLI](https://github.com/JamieMason/ImageOptim-CLI#installation).

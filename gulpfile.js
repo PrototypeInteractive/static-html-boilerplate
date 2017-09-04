@@ -13,7 +13,6 @@ const rename = require('gulp-rename');
 const svgstore = require('gulp-svgstore');
 const svgo = require('gulp-svgo');
 const copy = require('gulp-copy');
-const jshint = require('gulp-jshint');
 const webpack = require('webpack');
 
 const buildpath = {
@@ -200,12 +199,6 @@ gulp.task('a11y', function() {
             force: true
         }))
         .on('error', console.log);
-});
-
-gulp.task('jshint', function() {
-    return gulp.src('assets/js/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
 });
 
 gulp.task('critical', function(cb) {
