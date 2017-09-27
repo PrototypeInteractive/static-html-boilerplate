@@ -3,11 +3,11 @@
   "version": "0.5.4",
   "private": true,
   "dependencies": {
-    "basic-auth": "^1.0.4",
-    "compression": "^1.7.0",
-    "express": "^4.15.4",
+    "basic-auth": "^1.1.0",
+    "compression": "^1.7.1",
+    "express": "^4.15.5",
     "helmet": "^3.8.1",
-    "serve-static": "^1.12.4"
+    "serve-static": "^1.12.6"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.7",
@@ -19,11 +19,11 @@
     "critical": "^0.8.4",
     "cross-env": "^5.0.5",
     "cssnano": "^3.7.3",
-    "eslint": "^4.6.1",
+    "eslint": "^4.7.2",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.3.0",
+    "eslint-plugin-react": "^7.4.0",
     "gulp": "^3.9.1",
     "gulp-accessibility": "^3.0.1",
     "gulp-compile-handlebars": "^0.6.1",
@@ -38,10 +38,10 @@
     "gulp-w3cjs": "^1.3.0",
     "jquery": "^3.2.1",
     "jshint": "^2.9.5",
-    "pixrem": "^3.0.1",
+    "pixrem": "^3.0.2",
     "shx": "^0.2.2",
     "svg4everybody": "^2.1.9",
-    "webpack": "^3.5.5"
+    "webpack": "^3.6.0"
   },
   "scripts": {
     "start": "node server.js",
