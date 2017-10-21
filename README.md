@@ -14,7 +14,7 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 *   [SVG sprites](https://css-tricks.com/svg-sprites-use-better-icon-fonts/): Add your icons in `assets/icons` and use them.
 *	Server: Node.js code for easy, gzipped, and secure static website hosting.
 *   [BrowserSync](https://www.browsersync.io/): As a development server.
-*   [jQuery](http://jquery.com/): jQuery is included as external in webpack.
+*	[gulp](https://gulpjs.com/): Used to build sass, build svgs, run handlebars, and copy files to public folder.
 
 ### How to proceed
 
