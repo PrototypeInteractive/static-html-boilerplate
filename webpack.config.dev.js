@@ -6,9 +6,6 @@ module.exports = {
     filename: 'scripts.js',
     path: path.resolve(__dirname, 'dist', 'js')
   },
-  externals: {
-    jquery: 'jQuery'
-  },
   module: {
     rules: [{
       test: /\.js?$/,

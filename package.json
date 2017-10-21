@@ -1,6 +1,6 @@
 {
   "name": "benedict_cumberbatch",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "private": true,
   "dependencies": {
     "basic-auth": "^1.1.0",

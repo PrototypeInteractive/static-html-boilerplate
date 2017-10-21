@@ -39,6 +39,20 @@ You only need to deploy the server code and the dist folder.
 
 ### Changelog
 
+#### **0.5.5** - jQuery is now [opt-in](http://youmightnotneedjquery.com/), to add it:
+
+In webpack config, add jQuery as an external
+
+```
+externals: {
+  jquery: 'jQuery'
+}
+```
+
+In `scripts.html` add jQuery from google CDN
+
+`<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>`
+
 #### **0.5.4** - Added eslint with airbnb
 
 #### **0.5.3** - Windows support in npm scripts
