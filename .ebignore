@@ -1,8 +1,8 @@
 *
 **/*
-!/dist
-!/dist/*
-!/dist/**/*
+!/public
+!/public/*
+!/public/**/*
 !/server
 !/server/*
 !/server/**/*
