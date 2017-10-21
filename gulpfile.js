@@ -18,11 +18,11 @@ const copy = require('gulp-copy');
 const webpack = require('webpack');
 
 const buildpath = {
-  main: 'dist/',
-  js: 'dist/js/',
-  css: 'dist/css/',
-  images: 'dist/images/',
-  favicon: 'dist/favicon/'
+  main: 'public/',
+  js: 'public/js/',
+  css: 'public/css/',
+  images: 'public/images/',
+  favicon: 'public/favicon/'
 };
 
 const stylesheets = ['assets/sass/style-rtl.scss', 'assets/sass/style-ltr.scss'];
@@ -141,14 +141,14 @@ gulp.task('watch', function () {
 gulp.task('browserSync', function () {
   browserSync.init({
     server: {
-      baseDir: "./dist"
+      baseDir: "./public"
     }
   });
 });
 
 
 gulp.task('sitemap', function () {
-  gulp.src('dist/**/*.html', {
+  gulp.src('public/**/*.html', {
     read: false
   })
     .pipe(sitemap({
@@ -167,7 +167,7 @@ gulp.task('handlebars', function () {
   };
 
   var files = [
-    ['source/index.html', 'dist/index.html']
+    ['source/index.html', 'public/index.html']
   ];
 
   return files.forEach(function (filePair) {

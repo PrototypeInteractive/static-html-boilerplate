@@ -1,6 +1,6 @@
 {
   "name": "benedict_cumberbatch",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "private": true,
   "dependencies": {
     "basic-auth": "^1.1.0",
@@ -46,10 +46,11 @@
   "scripts": {
     "start": "node server.js",
     "lint": "node_modules/.bin/eslint assets/js --fix",
-    "a11y": "shx --silent rm -rd dist || true && gulp prod && gulp a11y",
-    "w3cjs": "shx --silent rm -rd dist || true && gulp prod && gulp w3cjs",
-    "dev": "shx --silent rm -rd dist || true && gulp",
-    "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js"
+    "a11y": "shx --silent rm -rd public || true && gulp prod && gulp a11y",
+    "w3cjs": "shx --silent rm -rd public || true && gulp prod && gulp w3cjs",
+    "dev": "shx --silent rm -rd public || true && gulp",
+    "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js",
+    "deploy": "shx --silent rm -rd public || true && gulp prod"
   },
   "description": "Static HTML Boilerplate",
   "main": "server.js",
