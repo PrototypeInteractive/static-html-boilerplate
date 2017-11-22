@@ -16,6 +16,9 @@ const svgstore = require('gulp-svgstore');
 const svgo = require('gulp-svgo');
 const copy = require('gulp-copy');
 const webpack = require('webpack');
+const critical = require('critical');
+const w3cjs = require('gulp-w3cjs');
+const access = require('gulp-accessibility');
 
 const buildpath = {
   main: 'public/',
@@ -186,14 +189,12 @@ gulp.task('handlebars', function () {
 
 
 gulp.task('w3cjs', function () {
-  var w3cjs = require('gulp-w3cjs');
   return gulp.src(buildpath.main + '**/*.html')
     .pipe(w3cjs())
     .pipe(w3cjs.reporter());
 });
 
 gulp.task('a11y', function () {
-  var access = require('gulp-accessibility');
   return gulp.src(buildpath.main + '**/*.html')
     .pipe(access({
       force: true
@@ -201,8 +202,7 @@ gulp.task('a11y', function () {
     .on('error', console.log);
 });
 
-gulp.task('critical', function (cb) {
-  var critical = require('critical');
+gulp.task('critical', ['handlebars'], function (cb) {
   var files = [
     ['index.html', 'index.html']
   ];
@@ -221,5 +221,5 @@ gulp.task('critical', function (cb) {
 });
 
 gulp.task('default', ['copy', 'handlebars', 'svgstore', 'webpack', 'postcss:dev', 'browserSync', 'watch']);
-gulp.task('prod', ['copy', 'handlebars', 'svgstore', 'webpack:prod', 'postcss:prod']);
+gulp.task('prod', ['copy', 'critical', 'svgstore', 'webpack:prod', 'postcss:prod']);
 gulp.task('test', ['w3cjs', 'a11y']);

@@ -54,7 +54,7 @@ module.exports = function(app) {
     }
   });
 
-  app.use(serveStatic('dist', {
+  app.use(serveStatic('public', {
     'index': ['index.html'],
     'dotfiles': 'ignore',
     'maxAge': production ? '7d' : '0d',
