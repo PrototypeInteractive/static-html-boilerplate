@@ -8,7 +8,7 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 ### What's included
 
-*   [Bootstrap 3](http://getbootstrap.com/): Bootstrap's normalize, grid system, and utility classes are imported by default.
+*   [Bootstrap](http://getbootstrap.com/): Bootstrap's normalize, grid system, and utility classes are imported by default.
 *   [Webpack](https://webpack.js.org/): With babel, allows you to use ES6 code and modules.
 *   [Handlebars](http://handlebarsjs.com/): Build your html with partials.
 *   [SVG sprites](https://css-tricks.com/svg-sprites-use-better-icon-fonts/): Add your icons in `assets/icons` and use them.
