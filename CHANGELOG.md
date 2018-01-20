@@ -1,5 +1,7 @@
 ### Changelog
 
+### **0.6.0** - Updated to boostrap 4
+
 #### **0.5.6** - Renamed `dist` to `public`
 
 #### **0.5.5** - jQuery is now [opt-in](http://youmightnotneedjquery.com/), to add it:
