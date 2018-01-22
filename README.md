@@ -20,7 +20,7 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 1.  Prepare a coffee
 1.  Run: `npm i` to install the dependencies
-1.  Run: `gulp` to build and watch
+1.  Run: `npm run dev` to build and watch
 1.  Start coding!
 
 ### Test
@@ -33,7 +33,9 @@ The boilerplate includes three necessary tests for your code:
 
 ### Deploy
 
-You only need to deploy the server code and the dist folder.
+1.  Run: `npm run deploy` to build 
+
+You only need to deploy the server code and the public folder.
 
 [Deploy on AWS EB](https://github.com/PrototypeInteractive/standards/wiki/elasticbeanstalk)
 

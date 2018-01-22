@@ -61,7 +61,7 @@ Icons are included via an svg sprite, to include and use an icon do the followin
 1. Export the icon svg from Sketch/Illustrator. Make sure the path is outlined
 2. Remove any `fill` or `fill-rule` from the svg file
 3. Add the file to `assets/icons`
-4. gulp will compress the svg and add it to `dist/images/icons.svg`
+4. gulp will compress the svg and add it to `public/images/icons.svg`
 5. Use it as an svg symbol:
 
 ```
