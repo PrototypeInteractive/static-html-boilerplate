@@ -202,7 +202,7 @@ gulp.task('a11y', function () {
     .on('error', console.log);
 });
 
-gulp.task('critical', ['handlebars'], function (cb) {
+gulp.task('critical', ['handlebars','postcss:prod'], function (cb) {
   var files = [
     ['index.html', 'index.html']
   ];
