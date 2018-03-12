@@ -6,6 +6,10 @@ module.exports = {
     filename: 'scripts.js',
     path: path.resolve(__dirname, 'public', 'js')
   },
+  mode: 'development',
+  optimization: {
+      minimize: false
+  },
   module: {
     rules: [{
       test: /\.js?$/,
