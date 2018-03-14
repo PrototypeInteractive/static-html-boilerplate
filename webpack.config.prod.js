@@ -14,22 +14,15 @@ module.exports = {
       exclude: /node_modules/
     }]
   },
+  mode: 'production',
+  optimization: {
+      minimize: true
+  },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: {
-        screw_ie8: true
-      },
-      comments: false
     })
   ]
 };
