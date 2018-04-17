@@ -7,6 +7,10 @@ module.exports = {
     filename: 'scripts.js',
     path: path.resolve(__dirname, 'public', 'js')
   },
+  mode: 'production',
+  optimization: {
+      minimize: true
+  },
   module: {
     rules: [{
       test: /\.js?$/,
@@ -19,17 +23,6 @@ module.exports = {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
-        screw_ie8: true,
-        keep_fnames: true
-      },
-      compress: {
-        screw_ie8: true
-      },
-      comments: false
     })
   ]
 };

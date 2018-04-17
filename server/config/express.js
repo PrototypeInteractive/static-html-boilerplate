@@ -19,13 +19,13 @@ module.exports = function(app) {
   app.use(compression());
 
   if (!production) {
-    var username = process.env.AUTH_USER || 'prototype';
-    var password = process.env.AUTH_PASS || 'prototype';
+    var username = process.env.AUTH_USER || 'username';
+    var password = process.env.AUTH_PASS || 'password';
     app.use(function(req, res, next) {
       var user = auth(req);
       if (user === undefined || user['name'] !== username || user['pass'] !== password) {
         res.statusCode = 401;
-        res.setHeader('WWW-Authenticate', 'Basic realm="prototype"');
+        res.setHeader('WWW-Authenticate', 'Basic realm="website"');
         res.end('Unauthorized');
       } else {
         next();
