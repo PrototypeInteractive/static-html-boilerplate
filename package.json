@@ -40,7 +40,10 @@
     "pixrem": "^4.0.1",
     "shx": "^0.2.2",
     "svg4everybody": "^2.1.9",
-    "webpack": "^4.5.0"
+    "webpack": "^4.5.0",
+    "husky": "^0.14.3",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1"
   },
   "scripts": {
     "start": "node server.js",
@@ -49,15 +52,18 @@
     "w3cjs": "shx --silent rm -rd public || true && gulp prod && gulp w3cjs",
     "dev": "shx --silent rm -rd public || true && gulp",
     "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js",
-    "deploy": "shx --silent rm -rd public || true && gulp prod"
+    "deploy": "shx --silent rm -rd public || true && gulp prod",
+    "precommit": "pretty-quick --staged"
   },
   "description": "Static HTML Boilerplate",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/prototypeinteractive/static-html-boilerplate.git"
+    "url":
+      "git+ssh://git@github.com/prototypeinteractive/static-html-boilerplate.git"
   },
   "author": "Prototype Interactive",
   "license": "ISC",
-  "homepage": "https://github.com/prototypeinteractive/static-html-boilerplate#readme"
+  "homepage":
+    "https://github.com/prototypeinteractive/static-html-boilerplate#readme"
 }
