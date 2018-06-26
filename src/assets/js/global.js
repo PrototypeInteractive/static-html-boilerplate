@@ -1,4 +1,4 @@
-import svg4everybody from 'svg4everybody';
+import svg4everybody from "svg4everybody";
 
 export default class Global {
   init() {

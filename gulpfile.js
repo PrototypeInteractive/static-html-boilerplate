@@ -20,6 +20,15 @@ const critical = require("critical");
 const w3cjs = require("gulp-w3cjs");
 const access = require("gulp-accessibility");
 
+const srcpath = {
+  main: "src/assets",
+  css: "src/assets/sass",
+  pages: "src/pages",
+  icons: "src/assets/icons",
+  images: "src/assets/images",
+  favicon: "src/assets/favicon"
+};
+
 const buildpath = {
   main: "public/",
   js: "public/js/",
@@ -28,30 +37,33 @@ const buildpath = {
   favicon: "public/favicon/"
 };
 
-const stylesheets = ["assets/sass/style.rtl.scss", "assets/sass/style.scss"];
+const stylesheets = [
+  `${srcpath.css}/style.rtl.scss`,
+  `${srcpath.css}/style.scss`
+];
 
 gulp.task("copy", ["copy:favicon", "copy:images", "copy:robots"]);
 
 gulp.task("copy:robots", function(cb) {
-  return gulp.src(["assets/robots.txt"]).pipe(
+  return gulp.src([`${srcpath.main}/robots.txt`]).pipe(
     copy(buildpath.main, {
-      prefix: 2
+      prefix: 3
     })
   );
 });
 
 gulp.task("copy:favicon", function(cb) {
-  return gulp.src(["assets/favicon/**/*"]).pipe(
+  return gulp.src([`${srcpath.favicon}/**/*`]).pipe(
     copy(buildpath.favicon, {
-      prefix: 2
+      prefix: 3
     })
   );
 });
 
 gulp.task("copy:images", function(cb) {
-  return gulp.src(["assets/images/**/*"]).pipe(
+  return gulp.src([`${srcpath.images}/**/*`]).pipe(
     copy(buildpath.images, {
-      prefix: 2
+      prefix: 3
     })
   );
 });
@@ -86,7 +98,7 @@ gulp.task("webpack:prod", function(cb) {
 });
 
 gulp.task("postcss:dev", function() {
-  var processors = [
+  const processors = [
     pixrem(),
     autoprefixer({
       browsers: ["last 2 versions"]
@@ -108,7 +120,7 @@ gulp.task("postcss:dev", function() {
 });
 
 gulp.task("postcss:prod", function() {
-  var processors = [
+  const processors = [
     pixrem(),
     autoprefixer({
       browsers: ["last 2 versions"]
@@ -129,14 +141,14 @@ gulp.task("postcss:prod", function() {
 
 gulp.task("svgo", function() {
   return gulp
-    .src("assets/icons/*.svg")
+    .src(`${srcpath.icons}/*.svg`)
     .pipe(svgo())
-    .pipe(gulp.dest("assets/icons"));
+    .pipe(gulp.dest(`${srcpath.icons}/`));
 });
 
 gulp.task("svgstore", ["svgo"], function() {
   return gulp
-    .src("assets/icons/*.svg")
+    .src(`${srcpath.icons}/*.svg`)
     .pipe(
       rename({
         prefix: "icon-"
@@ -147,11 +159,11 @@ gulp.task("svgstore", ["svgo"], function() {
 });
 
 gulp.task("watch", function() {
-  gulp.watch(["source/**/*.html", "partials/**/*.html"], ["handlebars"]);
-  gulp.watch(["assets/sass/**/*.scss"], ["postcss:dev"]);
-  gulp.watch(["assets/js/**/*.js"], ["webpack"]);
-  gulp.watch(["assets/icons/*.svg"], ["svgstore"]);
-  gulp.watch(["assets/images/**/*"], ["copy:images"]);
+  gulp.watch(["src/pages/**/*.html", "src/partials/**/*.html"], ["handlebars"]);
+  gulp.watch([`${srcpath.css}/**/*.scss`], ["postcss:dev"]);
+  gulp.watch([`${srcpath.js}/**/*.js`], ["webpack"]);
+  gulp.watch([`${srcpath.icons}/*.svg`], ["svgstore"]);
+  gulp.watch([`${srcpath.images}/**/*`], ["copy:images"]);
 });
 
 gulp.task("browserSync", function() {
@@ -179,17 +191,17 @@ gulp.task("sitemap", function() {
 });
 
 gulp.task("handlebars", function() {
-  var options = {
-    batch: ["partials"]
+  const options = {
+    batch: ["src/partials"]
   };
 
-  var files = [["source/index.html", "public/index.html"]];
+  const files = [[`${srcpath.pages}/index.html`, "public/index.html"]];
 
   return files.forEach(function(filePair) {
-    var src = filePair[0];
-    var dist = filePair[1];
-    var distDir = path.dirname(dist);
-    var distFileName = path.basename(dist);
+    const src = filePair[0];
+    const dist = filePair[1];
+    const distDir = path.dirname(dist);
+    const distFileName = path.basename(dist);
 
     return gulp
       .src(src)
@@ -219,7 +231,7 @@ gulp.task("a11y", function() {
 });
 
 gulp.task("critical", ["handlebars"], function(cb) {
-  var files = [["index.html", "index.html"]];
+  const files = [["index.html", "index.html"]];
 
   files.forEach(function(filePair) {
     critical.generate({

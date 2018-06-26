@@ -1,21 +1,23 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './assets/js/main.js',
+  entry: "./src/assets/js/main.js",
   output: {
-    filename: 'scripts.js',
-    path: path.resolve(__dirname, 'public', 'js')
+    filename: "scripts.js",
+    path: path.resolve(__dirname, "public", "js")
   },
-  mode: 'development',
+  mode: "development",
   optimization: {
-      minimize: false
+    minimize: false
   },
   module: {
-    rules: [{
-      test: /\.js?$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.js?$/,
+        loader: "babel-loader",
+        exclude: /node_modules/
+      }
+    ]
   },
-  devtool: 'source-map'
+  devtool: "source-map"
 };

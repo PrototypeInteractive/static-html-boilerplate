@@ -1,22 +1,24 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
-  entry: './assets/js/main.js',
+  entry: "./src/assets/js/main.js",
   output: {
-    filename: 'scripts.js',
-    path: path.resolve(__dirname, 'public', 'js')
+    filename: "scripts.js",
+    path: path.resolve(__dirname, "public", "js")
   },
-  mode: 'production',
+  mode: "production",
   optimization: {
-      minimize: true
+    minimize: true
   },
   module: {
-    rules: [{
-      test: /\.js?$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.js?$/,
+        loader: "babel-loader",
+        exclude: /node_modules/
+      }
+    ]
   },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
