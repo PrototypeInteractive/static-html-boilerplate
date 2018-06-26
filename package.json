@@ -48,11 +48,11 @@
   "scripts": {
     "start": "node server.js",
     "lint": "node_modules/.bin/eslint assets/js --fix",
-    "a11y": "shx --silent rm -rd public || true && gulp prod && gulp a11y",
-    "w3cjs": "shx --silent rm -rd public || true && gulp prod && gulp w3cjs",
-    "dev": "shx --silent rm -rd public || true && gulp",
+    "a11y": "shx --silent rm -r public || true && gulp prod && gulp a11y",
+    "w3cjs": "shx --silent rm -r public || true && gulp prod && gulp w3cjs",
+    "dev": "shx --silent rm -r public || true && gulp",
     "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js",
-    "deploy": "shx --silent rm -rd public || true && gulp prod",
+    "deploy": "shx --silent rm -r public || true && gulp prod",
     "precommit": "pretty-quick --staged"
   },
   "description": "Static HTML Boilerplate",
