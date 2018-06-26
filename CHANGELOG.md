@@ -1,5 +1,7 @@
 ### Changelog
 
+### **0.6.3** - Rename style exports
+
 ### **0.6.2** - Added prettier precommit hook
 
 ### **0.6.1** - Updated Webpack
