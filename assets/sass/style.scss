@@ -1,5 +1,4 @@
-@import 'settings';
-@import 'mixins/mixins';
-@import 'mixins/rtl';
-@import "bootstrap";
-@import 'global';
+$bi-app-direction: ltr;
+$bi-app-right: right;
+$bi-app-left: left;
+@import "style";
