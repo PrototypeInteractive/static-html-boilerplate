@@ -24,6 +24,7 @@ const srcpath = {
   main: "src/assets",
   css: "src/assets/sass",
   pages: "src/pages",
+  partials: "src/partials",
   icons: "src/assets/icons",
   images: "src/assets/images",
   favicon: "src/assets/favicon"
@@ -159,7 +160,10 @@ gulp.task("svgstore", ["svgo"], function() {
 });
 
 gulp.task("watch", function() {
-  gulp.watch(["src/pages/**/*.html", "src/partials/**/*.html"], ["handlebars"]);
+  gulp.watch(
+    [`${srcpath.css}/**/*.html`, `${srcpath.css}/**/*.html`],
+    ["handlebars"]
+  );
   gulp.watch([`${srcpath.css}/**/*.scss`], ["postcss:dev"]);
   gulp.watch([`${srcpath.js}/**/*.js`], ["webpack"]);
   gulp.watch([`${srcpath.icons}/*.svg`], ["svgstore"]);
@@ -192,12 +196,12 @@ gulp.task("sitemap", function() {
 
 gulp.task("handlebars", function() {
   const options = {
-    batch: ["src/partials"]
+    batch: [srcpath.partials]
   };
 
   const files = [[`${srcpath.pages}/index.html`, "public/index.html"]];
 
-  return files.forEach(function(filePair) {
+  return files.map(filePair => {
     const src = filePair[0];
     const dist = filePair[1];
     const distDir = path.dirname(dist);
