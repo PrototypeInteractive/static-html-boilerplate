@@ -43,34 +43,33 @@ const stylesheets = [
   `${srcpath.css}/style.scss`
 ];
 
-gulp.task("copy", ["copy:favicon", "copy:images", "copy:robots"]);
-
-gulp.task("copy:robots", function(cb) {
+const copyRobots = function(cb) {
   return gulp.src([`${srcpath.main}/robots.txt`]).pipe(
     copy(buildpath.main, {
       prefix: 3
     })
   );
-});
+};
 
-gulp.task("copy:favicon", function(cb) {
+const copyFavicon = function(cb) {
   return gulp.src([`${srcpath.favicon}/**/*`]).pipe(
     copy(buildpath.favicon, {
       prefix: 3
     })
   );
-});
-
-gulp.task("copy:images", function(cb) {
+};
+const copyImages = function(cb) {
   return gulp.src([`${srcpath.images}/**/*`]).pipe(
     copy(buildpath.images, {
       prefix: 3
     })
   );
-});
+};
 
-gulp.task("webpack", function() {
-  return webpack(require("./webpack.config.dev.js"), function(err, stats) {
+const webpackConfig = require("./webpack.config.dev.js");
+
+const webpackTask = function(done) {
+  webpack(webpackConfig, function(err, stats) {
     if (err) {
       console.error("webpack", err);
     }
@@ -81,11 +80,14 @@ gulp.task("webpack", function() {
       })
     );
     browserSync.reload();
+    done();
   });
-});
+};
 
-gulp.task("webpack:prod", function(cb) {
-  return webpack(require("./webpack.config.prod.js"), function(err, stats) {
+const webpackConfigProd = require("./webpack.config.prod.js");
+
+const webpackProdTask = function(done) {
+  webpack(webpackConfigProd, function(err, stats) {
     if (err) {
       console.error("[webpack]", err);
     }
@@ -95,12 +97,12 @@ gulp.task("webpack:prod", function(cb) {
         colors: true
       })
     );
+    done();
   });
-});
+};
 
-gulp.task("postcss:dev", function() {
+const postcssDev = function() {
   const processors = [
-    pixrem(),
     autoprefixer({
       browsers: ["last 2 versions"]
     })
@@ -118,13 +120,13 @@ gulp.task("postcss:dev", function() {
         match: "**/*.css"
       })
     );
-});
+};
 
-gulp.task("postcss:prod", function() {
+const postcssProd = function() {
   const processors = [
     pixrem(),
     autoprefixer({
-      browsers: ["last 2 versions"]
+      browsers: ["last 2 versions", "ie >= 11"]
     }),
     cssnano({
       safe: true
@@ -138,17 +140,17 @@ gulp.task("postcss:prod", function() {
     .pipe(postcss(processors))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(buildpath.css));
-});
+};
 
-gulp.task("svgo", function() {
+const svgoTask = function() {
   return gulp
     .src(`${srcpath.icons}/*.svg`)
     .pipe(svgo())
     .pipe(gulp.dest(`${srcpath.icons}/`));
-});
+};
 
-gulp.task("svgstore", ["svgo"], function() {
-  return gulp
+const svgstoreTask = gulp.series(svgoTask, function(done) {
+  gulp
     .src(`${srcpath.icons}/*.svg`)
     .pipe(
       rename({
@@ -157,29 +159,60 @@ gulp.task("svgstore", ["svgo"], function() {
     )
     .pipe(svgstore())
     .pipe(gulp.dest(buildpath.images));
+  done();
 });
 
-gulp.task("watch", function() {
+const handlebarsTask = function(done) {
+  const options = {
+    batch: [srcpath.partials]
+  };
+
+  const files = [[`${srcpath.pages}/index.html`, "public/index.html"]];
+
+  const tasks = files.map(filePair => {
+    const src = filePair[0];
+    const dist = filePair[1];
+    const distDir = path.dirname(dist);
+    const distFileName = path.basename(dist);
+
+    return () =>
+      gulp
+        .src(src)
+        .pipe(handlebars({}, options))
+        .pipe(rename(distFileName))
+        .pipe(gulp.dest(distDir))
+        .pipe(browserSync.stream());
+  });
+
+  return gulp.series(...tasks, seriesDone => {
+    seriesDone();
+    done();
+  })();
+};
+
+const watch = done => {
   gulp.watch(
-    [`${srcpath.css}/**/*.html`, `${srcpath.css}/**/*.html`],
-    ["handlebars"]
+    [`${srcpath.pages}/**/*.html`, `${srcpath.partials}/**/*.html`],
+    gulp.series(handlebarsTask)
   );
-  gulp.watch([`${srcpath.css}/**/*.scss`], ["postcss:dev"]);
-  gulp.watch([`${srcpath.js}/**/*.js`], ["webpack"]);
-  gulp.watch([`${srcpath.icons}/*.svg`], ["svgstore"]);
-  gulp.watch([`${srcpath.images}/**/*`], ["copy:images"]);
-});
+  gulp.watch([`${srcpath.css}/**/*.scss`], gulp.series(postcssDev));
+  gulp.watch([`${srcpath.js}/**/*.js`], gulp.series(webpackTask));
+  gulp.watch([`${srcpath.icons}/*.svg`], gulp.series(svgstoreTask));
+  gulp.watch([`${srcpath.images}/**/*`], gulp.series(copyImages));
+  done();
+};
 
-gulp.task("browserSync", function() {
+const browserSyncTask = function(done) {
   browserSync.init({
     server: {
       baseDir: "./public"
     }
   });
-});
+  done();
+};
 
-gulp.task("sitemap", function() {
-  gulp
+const sitemapTask = function() {
+  return gulp
     .src("public/**/*.html", {
       read: false
     })
@@ -192,38 +225,16 @@ gulp.task("sitemap", function() {
       })
     )
     .pipe(gulp.dest(buildpath.main));
-});
+};
 
-gulp.task("handlebars", function() {
-  const options = {
-    batch: [srcpath.partials]
-  };
-
-  const files = [[`${srcpath.pages}/index.html`, "public/index.html"]];
-
-  return files.map(filePair => {
-    const src = filePair[0];
-    const dist = filePair[1];
-    const distDir = path.dirname(dist);
-    const distFileName = path.basename(dist);
-
-    return gulp
-      .src(src)
-      .pipe(handlebars({}, options))
-      .pipe(rename(distFileName))
-      .pipe(gulp.dest(distDir))
-      .pipe(browserSync.stream());
-  });
-});
-
-gulp.task("w3cjs", function() {
+const w3cjsTask = function() {
   return gulp
     .src(buildpath.main + "**/*.html")
     .pipe(w3cjs())
     .pipe(w3cjs.reporter());
-});
+};
 
-gulp.task("a11y", function() {
+const a11yTask = function() {
   return gulp
     .src(buildpath.main + "**/*.html")
     .pipe(
@@ -232,38 +243,51 @@ gulp.task("a11y", function() {
       })
     )
     .on("error", console.log);
-});
+};
 
-gulp.task("critical", ["handlebars"], function(cb) {
+const criticalTask = function(done) {
   const files = [["index.html", "index.html"]];
-
   files.forEach(function(filePair) {
-    critical.generate({
-      inline: true,
-      base: buildpath.main,
-      src: filePair[0],
-      dest: filePair[1],
-      minify: true,
-      width: 1440,
-      height: 700
-    });
+    critical
+      .generate({
+        inline: true,
+        base: buildpath.main,
+        src: filePair[0],
+        dest: filePair[1],
+        minify: true,
+        width: 1440,
+        height: 700
+      })
+      .catch(console.log);
   });
-});
+  done();
+};
 
-gulp.task("default", [
-  "copy",
-  "handlebars",
-  "svgstore",
-  "webpack",
-  "postcss:dev",
-  "browserSync",
-  "watch"
-]);
-gulp.task("prod", [
-  "copy",
-  "critical",
-  "svgstore",
-  "webpack:prod",
-  "postcss:prod"
-]);
-gulp.task("test", ["w3cjs", "a11y"]);
+const copyTask = gulp.parallel(copyImages, copyFavicon, copyRobots);
+
+const build = gulp.series(
+  copyTask,
+  handlebarsTask,
+  svgstoreTask,
+  webpackTask,
+  postcssDev,
+  browserSyncTask,
+  watch
+);
+
+const prod = gulp.series(
+  copyTask,
+  svgstoreTask,
+  webpackProdTask,
+  postcssProd,
+  handlebarsTask,
+  criticalTask
+);
+
+const test = gulp.series(w3cjsTask, a11yTask);
+
+exports.critical = criticalTask;
+exports.sitemap = sitemapTask;
+exports.default = build;
+exports.prod = prod;
+exports.test = test;
