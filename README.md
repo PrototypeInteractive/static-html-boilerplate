@@ -23,6 +23,18 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 1.  Run: `npm run dev` to build and watch
 1.  Start coding!
 
+
+### Notes:
+* To add a new page to the site, you must add the mapping to the `gulpfile.js` inside the `handlebars` gulp task, modify the `files` variable and add the mapping to URL.
+
+The following is an example to adding a `contact-us` page:
+```
+var files = [
+  ['source/index.html', 'public/index.html'],
+  ['source/contact-us.html', 'public/contact-us/index.html']
+];
+```
+
 ### Test
 
 The boilerplate includes three necessary tests for your code:
