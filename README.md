@@ -8,13 +8,11 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 ### What's included
 
-*   [Bootstrap 4](http://getbootstrap.com/): Bootstrap's normalize, grid system, and utility classes are imported by default.
+*   [Bootstrap 5](http://getbootstrap.com/): Bootstrap's normalize, grid system, and utility classes are imported by default.
 *   [Webpack](https://webpack.js.org/): With babel, allows you to use ES6 code and modules.
 *   [Handlebars](http://handlebarsjs.com/): Build your html with partials.
 *   [SVG sprites](https://css-tricks.com/svg-sprites-use-better-icon-fonts/): Add your icons in `assets/icons` and use them.
-*	Server: Node.js code for easy, gzipped, and secure static website hosting.
-*   [BrowserSync](https://www.browsersync.io/): As a development server.
-*	[gulp](https://gulpjs.com/): Used to build sass, build svgs, run handlebars, and copy files to public folder.
+*   Server: Node.js code for easy, gzipped, and secure static website hosting.
 
 ### How to proceed
 
@@ -25,30 +23,21 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 
 ### Notes:
-* To add a new page to the site, you must add the mapping to the `gulpfile.js` inside the `handlebars` gulp task, modify the `files` variable and add the mapping to URL.
+* To add a new page to the site, you must add the mapping in `webpack.config.js` for the sitemap. Add the corresponding file path to the `paths` array.
 
 The following is an example to adding a `contact-us` page:
-```
-var files = [
-  ['source/index.html', 'public/index.html'],
-  ['source/contact-us.html', 'public/contact-us/index.html']
+```javascript
+const paths = [
+    'index.html',
+    'about-us/index.html',
+    'support/terms/index.html'
 ];
 ```
 
-### Test
+### Code quality
 
-The boilerplate includes three necessary tests for your code:
+The boilerplate includes a built in linter configuration:
 
-* a HTML5 validator (`npm run w3js`),
-* an accessibility reporter (`npm run a11y`),
-* and an eslint linter (airbnb) (`npm run lint`).
-
-### Deploy
-
-1.  Run: `npm run deploy` to build 
-
-You only need to deploy the server code and the public folder.
-
-[Deploy on AWS EB](https://github.com/PrototypeInteractive/standards/wiki/elasticbeanstalk)
+`npm run lint`
 
 ### [Changelog](CHANGELOG.md)

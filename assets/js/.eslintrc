@@ -1,0 +1,22 @@
+{
+    "env": {
+        "browser": true
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "impliedStrict": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@babel",
+        "no-unsanitized"
+    ],
+    "rules": {
+        "@babel/no-unused-expressions": "error",
+        "no-unsanitized/method": "error",
+        "no-unsanitized/property": "error"
+    }
+}

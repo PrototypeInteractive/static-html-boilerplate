@@ -1,4 +1,4 @@
-$mq-extend-flag: true !global;
+$mq-extend-flag: true;
 //*****************************************
 //  UTILITIES
 //*****************************************
@@ -77,7 +77,7 @@ $mq-extend-flag: true !global;
 
 @mixin mq( $mq) {
     $found: false;
-    $mq-extend-flag: false !global;
+    $mq-extend-flag: false;
     @each $name,
     $breakpoint in $breakpoints {
         @if $mq==$name {
@@ -90,15 +90,15 @@ $mq-extend-flag: true !global;
     @if $found==false {
         @warn 'Breakpoint #{$mq} doesn\'t exist!';
     }
-    $mq-extend-flag: false !global;
+    $mq-extend-flag: false;
 }
 
 @mixin retina() {
-    $mq-extend-flag: false !global;
+    $mq-extend-flag: false;
     @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and ( min--moz-device-pixel-ratio: 1.5), only screen and ( -o-min-device-pixel-ratio: 3/2), only screen and ( min-device-pixel-ratio: 1.5), only screen and (min-resolution: 192dpi) {
         @content;
     }
-    $mq-extend-flag: true !global;
+    $mq-extend-flag: true;
 }
 
 //*****************************************
