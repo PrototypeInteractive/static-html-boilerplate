@@ -1,5 +1,11 @@
 ### Changelog
 
+#### **0.6.0**
+- Dropped gulp in favor of webpack
+- Changed `source` directory to `pages`
+- Use `webpack-dev-server` instead of `BrowserSync`
+- Updated all dependencies to latest version and now requires Node v16
+
 #### **0.5.6** - Renamed `dist` to `public`
 
 #### **0.5.5** - jQuery is now [opt-in](http://youmightnotneedjquery.com/), to add it:

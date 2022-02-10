@@ -1,15 +1,168 @@
 {
-    "extends": "airbnb",
-    "rules":
-    {
-        "react/jsx-filename-extension": "off",
-        "jsx-a11y/href-no-hash": "off",
-        "class-methods-use-this": "off",
+    "extends": [
+        "eslint:recommended",
+        "airbnb"
+    ],
+    "plugins": [
+        "import",
+        "no-secrets"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            4,
+            {
+                "ignoredNodes": [
+                    "TemplateLiteral"
+                ],
+                "SwitchCase": 1
+            }
+        ],
+        "class-methods-use-this": [
+            "off"
+        ],
+        "nonblock-statement-body-position": [
+            "error",
+            "below"
+        ],
+        "global-require": [
+            "off"
+        ],
+        "no-plusplus": [
+            "off"
+        ],
+        "operator-linebreak": [
+            "error",
+            "after",
+            {
+                "overrides": {
+                    "?": "ignore",
+                    ":": "ignore"
+                }
+            }
+        ],
+        "template-curly-spacing": [
+            "off"
+        ],
+        "comma-dangle": [
+            "error",
+            "never"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "jsx-quotes": [
+            "error",
+            "prefer-single"
+        ],
+        "no-confusing-arrow": [
+            "off"
+        ],
+        "curly": [
+            "error",
+            "multi-or-nest"
+        ],
+        "array-bracket-spacing": [
+            "error",
+            "always",
+            {
+                "singleValue": true,
+                "objectsInArrays": false,
+                "arraysInArrays": false
+            }
+        ],
+        "newline-before-return": [
+            "error"
+        ],
+        "camelcase": [
+            "off"
+        ],
+        "no-unused-expressions": "off",
+        "max-len": [
+            "warn",
+            {
+                "code": 160,
+                "ignoreUrls": true
+            }
+        ],
+        "padding-line-between-statements": [
+            "error",
+            {
+                "blankLine": "always",
+                "prev": "*",
+                "next": [
+                    "for",
+                    "while",
+                    "if",
+                    "do",
+                    "switch",
+                    "try",
+                    "throw"
+                ]
+            },
+            {
+                "blankLine": "always",
+                "prev": [
+                    "for",
+                    "while",
+                    "if",
+                    "do",
+                    "switch",
+                    "try",
+                    "throw"
+                ],
+                "next": "*"
+            }
+        ],
+        "prefer-destructuring": [
+            "error",
+            {
+                "array": false,
+                "object": false
+            },
+            {
+                "enforceForRenamedProperties": false
+            }
+        ],
+        "linebreak-style": [ "off" ],
+        "import/order": [
+            "error",
+            {
+                "alphabetize": {
+                    "order": "asc",
+                    "caseInsensitive": true
+                },
+                "newlines-between": "always",
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index"
+                ]
+            }
+        ],
+        "import/no-unresolved": [
+            "error",
+            {
+                "ignore": [
+                    "pages/404$"
+                ]
+            }
+        ],
+        "import/no-unused-modules": [
+            1,
+            {
+                "unusedExports": true
+            }
+        ],
+        "import/named": [
+            "error"
+        ],
         "import/no-extraneous-dependencies": "off",
-        "jsx-a11y/anchor-is-valid": ["warn",
-        {
-            "aspects": ["invalidHref"]
-        }],
-        "comma-dangle": ["error", "never"]
+        "import/prefer-default-export": "off",
+        "no-secrets/no-secrets":["error",{"ignoreContent":["^Static.", "^Content.", "subscribeTo"]}]
     }
 }
