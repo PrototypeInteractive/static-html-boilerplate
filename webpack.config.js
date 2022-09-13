@@ -1,11 +1,18 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const CopyPlugin = require('copy-webpack-plugin');
-const HandlebarsPlugin = require('handlebars-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+import CopyPlugin from 'copy-webpack-plugin';
+import HandlebarsPlugin from 'handlebars-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import SitemapWebpackPlugin from 'sitemap-webpack-plugin';
+import SpriteLoaderPlugin from 'svg-sprite-loader/plugin.js';
+import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
+
+const SitemapPlugin = SitemapWebpackPlugin.default;
 
 // Update this with the list of html files in /pages/en directory
 const paths = [
@@ -20,7 +27,7 @@ const buildpath = {
     favicon: path.resolve(__dirname, 'public/favicon/')
 };
 
-module.exports = {
+export default {
     entry: {
         scripts: './assets/js/main.js',
         'style-ltr': './assets/sass/style-ltr.scss',

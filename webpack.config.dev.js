@@ -1,6 +1,6 @@
-const baseConfig = require('./webpack.config');
+import baseConfig from './webpack.config.js';
 
-module.exports = {
+export default {
     ...baseConfig,
     mode: 'development',
     devtool: 'source-map',

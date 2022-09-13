@@ -14,6 +14,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "lint": "node_modules/.bin/eslint assets/js --fix",
@@ -38,7 +39,7 @@
     "babel-loader": "^8.2.3",
     "browser-sync": "^2.27.7",
     "copy-webpack-plugin": "^11.0.0",
-    "critical": "^4.0.1",
+    "critical": "^5.0.1",
     "cross-env": "^7.0.3",
     "css-loader": "^6.6.0",
     "cssnano": "^5.0.17",
@@ -60,8 +61,8 @@
     "svg-sprite-loader": "^6.0.11",
     "svg4everybody": "^2.1.9",
     "svgo-loader": "^3.0.0",
-    "webpack": "^5.68.0",
-    "webpack-cli": "^4.9.2",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.7.4",
     "webpack-remove-empty-scripts": "^0.8.4"
   }
