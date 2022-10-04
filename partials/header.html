@@ -1,8 +1,9 @@
 <header>
     <nav>
         <ul class="nav">
-            <li class='{{#if home_page}}active{{/if}}'><a href="/">Home</a></li>
-            <li class='{{#if about_page}}active{{/if}}'><a href="/about/">About</a></li>
+            {{#each data.items}}
+            <li class='{{#if home_page}}active{{/if}}'><a href="{{this.url}}">{{this.title}}</a></li>
+            {{/each}}
         </ul>
     </nav>
 </header>

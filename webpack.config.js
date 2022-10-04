@@ -1,6 +1,7 @@
 const path = require('path');
 
 const CopyPlugin = require('copy-webpack-plugin');
+const HandlebarsHelpers = require('handlebars-helpers')();
 const HandlebarsPlugin = require('handlebars-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
@@ -16,8 +17,7 @@ const buildpath = {
     main: path.resolve(__dirname, 'public'),
     js: path.resolve(__dirname, 'public/js'),
     css: path.resolve(__dirname, 'public/css'),
-    images: path.resolve(__dirname, 'public/images/'),
-    favicon: path.resolve(__dirname, 'public/favicon/')
+    images: path.resolve(__dirname, 'public/images/')
 };
 
 module.exports = {
@@ -54,7 +54,12 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '/'
+                        }
+                    },
                     'css-loader',
                     'postcss-loader',
                     'sass-loader'
@@ -66,18 +71,23 @@ module.exports = {
         new CopyPlugin({
             patterns: [
                 { from: 'assets/robots.txt', to: buildpath.main },
-                { from: 'assets/favicon', to: buildpath.favicon },
+                { from: 'assets/static', to: buildpath.main },
+                { from: 'assets/images', to: buildpath.images },
                 { from: 'assets/images', to: buildpath.images }
             ]
         }),
         new HandlebarsPlugin({
             entry: path.join(process.cwd(), 'pages', '**', '*.html'),
             output: path.join(process.cwd(), 'public', '[path]', '[name].html'),
-            data: path.join(__dirname, 'pages/data.json'),
+            data: path.join(__dirname, 'assets/data.json'),
             partials: [
                 path.join(process.cwd(), 'partials', '**', '*.html')
             ],
-            getPartialId: (filePath) => filePath.match(`^${__dirname}/partials/(.+).html`).pop()
+            getPartialId: (filePath) => filePath.match(`^${__dirname}/partials/(.+).html`).pop(),
+            helpers: {
+                ...HandlebarsHelpers,
+                inlineArray: (...args) => args.slice(0, -1)
+            }
         }),
         new SpriteLoaderPlugin(),
         new RemoveEmptyScriptsPlugin(),
