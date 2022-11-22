@@ -18,8 +18,11 @@ The boilerplate is an opinionated folder structure to help you kick-start your h
 
 1.  Prepare a coffee
 1.  Run: `npm i` to install the dependencies
+1.  Update the `deploy` script inside `package.json` file and replace `[S3-BUCKET-ID]` and `[CF-DISTRIBUTION-ID]` with corresponding values
 1.  Run: `npm run dev` to build and watch
 1.  Start coding!
+1.  Run: `npm run build` to build the project
+1.  Run: `npm run deploy` to deploy changes to the S3 bucket and optionally invalidate AWS CloudFront cache
 
 
 ### Notes:

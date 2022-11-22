@@ -89,3 +89,5 @@ $RECYCLE.BIN/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+.history/

@@ -19,7 +19,8 @@
     "lint": "node_modules/.bin/eslint assets/js --fix",
     "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js",
     "dev": "shx rm -rf public && webpack serve --config webpack.config.dev.js",
-    "build": "shx rm -rf public && webpack --config webpack.config.prod.js"
+    "build": "shx rm -rf public && webpack --config webpack.config.prod.js",
+    "deploy": "aws s3 cp public/ s3://[S3-BUCKET-ID] --recursive && aws cloudfront create-invalidation --distribution-id [CF-DISTRIBUTION-ID] --paths '/*'"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",
