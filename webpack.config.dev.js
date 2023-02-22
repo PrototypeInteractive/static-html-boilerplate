@@ -1,6 +1,6 @@
-const baseConfig = require('./webpack.config');
+import baseConfig from './webpack.config.js';
 
-module.exports = {
+const webpackDevConfig = {
     ...baseConfig,
     mode: 'development',
     devtool: 'source-map',
@@ -14,3 +14,6 @@ module.exports = {
         open: [ 'en' ]
     }
 };
+
+// eslint-disable-next-line import/no-unused-modules
+export default webpackDevConfig;

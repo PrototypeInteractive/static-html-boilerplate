@@ -37,6 +37,8 @@ const paths = [
 ];
 ```
 
+* Use [realfavicongenerator.net](https://realfavicongenerator.net/) to generate the favicon and metadata
+
 ### Code quality
 
 The boilerplate includes a built in linter configuration:

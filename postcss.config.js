@@ -1,11 +1,12 @@
-module.exports = {
-  plugins: [
-    'autoprefixer',
-    [
-      'cssnano',
-      {
-        safe: true
-      }
+// eslint-disable-next-line import/no-unused-modules
+export default {
+    plugins: [
+        'autoprefixer',
+        [
+            'cssnano',
+            {
+                safe: true
+            }
+        ]
     ]
-  ]
 };

@@ -1,0 +1,9 @@
+<header>
+    <nav>
+        <ul class="nav">
+            {{#each data.items}}
+            <li class='{{#if home_page}}active{{/if}}'><a href="{{this.url}}">{{this.title}}</a></li>
+            {{/each}}
+        </ul>
+    </nav>
+</header>

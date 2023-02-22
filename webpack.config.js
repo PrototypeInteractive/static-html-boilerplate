@@ -1,11 +1,14 @@
-const path = require('path');
+import path from 'path';
 
-const CopyPlugin = require('copy-webpack-plugin');
-const HandlebarsPlugin = require('handlebars-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+import CopyPlugin from 'copy-webpack-plugin';
+import HandlebarsHelpers from 'handlebars-helpers';
+import HandlebarsPlugin from 'handlebars-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import SitemapPluginModule from 'sitemap-webpack-plugin';
+import SpriteLoaderPlugin from 'svg-sprite-loader/plugin.js';
+import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
+
+const SitemapPlugin = SitemapPluginModule.default;
 
 // Update this with the list of html files in /pages/en directory
 const paths = [
@@ -13,23 +16,22 @@ const paths = [
 ];
 
 const buildpath = {
-    main: path.resolve(__dirname, 'public'),
-    js: path.resolve(__dirname, 'public/js'),
-    css: path.resolve(__dirname, 'public/css'),
-    images: path.resolve(__dirname, 'public/images/'),
-    favicon: path.resolve(__dirname, 'public/favicon/')
+    main: './public',
+    js: './public/js',
+    css: './public/css',
+    images: './public/images/'
 };
 
-module.exports = {
+const webpackCommonConfig = {
     entry: {
-        scripts: './assets/js/main.js',
-        'style-ltr': './assets/sass/style-ltr.scss',
-        'style-rtl': './assets/sass/style-rtl.scss'
+        scripts: './src/assets/js/main.js',
+        'style-ltr': './src/assets/sass/style-ltr.scss',
+        'style-rtl': './src/assets/sass/style-rtl.scss'
     },
     output: {
-        filename: './js/[name].js',
-        path: buildpath.main,
-        publicPath: './public'
+        filename: './src/js/[name].js',
+        path: path.resolve(buildpath.main),
+        publicPath: path.resolve('./public')
     },
     module: {
         rules: [
@@ -54,7 +56,12 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '/'
+                        }
+                    },
                     'css-loader',
                     'postcss-loader',
                     'sass-loader'
@@ -65,24 +72,30 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: 'assets/robots.txt', to: buildpath.main },
-                { from: 'assets/favicon', to: buildpath.favicon },
-                { from: 'assets/images', to: buildpath.images }
+                { from: 'src/assets/robots.txt', to: buildpath.main },
+                { from: 'src/assets/static', to: buildpath.main },
+                { from: 'src/assets/images', to: buildpath.images }
             ]
         }),
         new HandlebarsPlugin({
-            entry: path.join(process.cwd(), 'pages', '**', '*.html'),
+            entry: path.join(process.cwd(), 'src', 'pages', '**', '*.html'),
             output: path.join(process.cwd(), 'public', '[path]', '[name].html'),
-            data: path.join(__dirname, 'pages/data.json'),
+            data: './src/assets/data.json',
             partials: [
-                path.join(process.cwd(), 'partials', '**', '*.html')
+                path.join(process.cwd(), 'src', 'partials', '**', '*.html')
             ],
-            getPartialId: (filePath) => filePath.match(`^${__dirname}/partials/(.+).html`).pop()
+            getPartialId: (filePath) => filePath.match(`^${path.resolve('.')}/src/partials/(.+).html`).pop(),
+            helpers: {
+                ...HandlebarsHelpers,
+                inlineArray: (...args) => args.slice(0, -1)
+            }
         }),
         new SpriteLoaderPlugin(),
-        new RemoveEmptyScriptsPlugin(),
+        new RemoveEmptyScriptsPlugin({
+            stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS
+        }),
         new MiniCssExtractPlugin({
-            filename: './css/[name].css'
+            filename: './src/css/[name].css'
         }),
         new SitemapPlugin({
             base: 'https://prototype.net',
@@ -92,9 +105,12 @@ module.exports = {
                 priority: 1
             },
             paths: paths.map((pathItem) => ([
-        `./en/${pathItem.endsWith('index.html') ? '' : pathItem}`,
-        `./ar/${pathItem.endsWith('index.html') ? '' : pathItem}`
+                `./en/${pathItem.endsWith('index.html') ? '' : pathItem}`,
+                `./ar/${pathItem.endsWith('index.html') ? '' : pathItem}`
             ])).flat()
         })
     ]
 };
+
+// eslint-disable-next-line import/no-unused-modules
+export default webpackCommonConfig;

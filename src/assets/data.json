@@ -1,0 +1,36 @@
+{
+    "ar": {
+        "header": {
+            "items": [
+                {
+                    "title": "مسكن",
+                    "url": "/ar"
+                },
+                {
+                    "title": "حول",
+                    "url": "/ar/about"
+                }
+            ]
+        },
+        "home": {
+            "title": "أهلاً بك!"
+        }
+    },
+    "en": {
+        "header": {
+            "items": [
+                {
+                    "title": "Home",
+                    "url": "/en"
+                },
+                {
+                    "title": "About",
+                    "url": "/en/about"
+                }
+            ]
+        },
+        "home": {
+            "title": "Hello there!!!"
+        }
+    }
+}
