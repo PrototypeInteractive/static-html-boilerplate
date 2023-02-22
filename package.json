@@ -23,7 +23,8 @@
     "dev:data": "nodemon --watch ./src/assets/data ./src/scripts/merge-data.js",
     "dev:webpack": "wait-on ./src/assets/data.json && webpack serve --config webpack.config.dev.js",
     "dev": "npm run clean && concurrently \"npm:dev:data\" \"npm:dev:webpack\"",
-    "build": "npm run clean && node ./src/scripts/merge-data.js && webpack --config webpack.config.prod.js"
+    "build": "npm run clean && node ./src/scripts/merge-data.js && webpack --config webpack.config.prod.js",
+    "deploy": "aws s3 cp public/ s3://[S3-BUCKET-ID] --recursive && aws cloudfront create-invalidation --distribution-id [CF-DISTRIBUTION-ID] --paths '/*'"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",
