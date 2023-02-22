@@ -16,14 +16,14 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "lint": "node_modules/.bin/eslint assets/js --fix",
-    "server": "cross-env NODE_ENV=development DEBUG=api nodemon server.js",
-    "clean": "shx rm -rf public && shx rm -rf ./assets/data.json",
-    "dev:data": "nodemon --watch ./assets/data ./scripts/merge-data.js",
-    "dev:webpack": "wait-on ./assets/data.json && webpack serve --config webpack.config.dev.js",
+    "start": "node ./src/server.js",
+    "lint": "node_modules/.bin/eslint src/assets/js --fix",
+    "server": "cross-env NODE_ENV=development DEBUG=api nodemon ./src/server.js",
+    "clean": "shx rm -rf public && shx rm -rf ./src/assets/data.json",
+    "dev:data": "nodemon --watch ./src/assets/data ./src/scripts/merge-data.js",
+    "dev:webpack": "wait-on ./src/assets/data.json && webpack serve --config webpack.config.dev.js",
     "dev": "npm run clean && concurrently \"npm:dev:data\" \"npm:dev:webpack\"",
-    "build": "npm run clean && node ./scripts/merge-data.js && webpack --config webpack.config.prod.js"
+    "build": "npm run clean && node ./src/scripts/merge-data.js && webpack --config webpack.config.prod.js"
   },
   "dependencies": {
     "basic-auth": "^2.0.1",

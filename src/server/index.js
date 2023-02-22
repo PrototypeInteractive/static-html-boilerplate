@@ -1,7 +1,7 @@
 import debugModule from 'debug';
 import Express from 'express';
 
-import init from './config/express';
+import init from './config/express.js';
 
 const debug = debugModule('api');
 

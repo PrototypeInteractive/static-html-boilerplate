@@ -3,7 +3,7 @@ import path from 'path';
 
 import glob from 'glob';
 
-const dataFiles = glob.sync('assets/data/**/*.json');
+const dataFiles = glob.sync('src/assets/data/**/*.json');
 
 const result = {};
 
@@ -30,6 +30,6 @@ dataFiles.forEach(async (filePath) => {
     result[namespace][fileName] = data;
 });
 
-const filePath = path.resolve('./assets/data.json');
+const filePath = path.resolve('./src/assets/data.json');
 
 fs.writeFileSync(filePath, JSON.stringify(result, null, 4), { flag: 'w' });
