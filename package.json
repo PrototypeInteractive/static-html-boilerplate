@@ -38,7 +38,7 @@
     "@babel/eslint-plugin": "^7.16.5",
     "@babel/preset-env": "^7.16.11",
     "autoprefixer": "^10.4.2",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^9.1.2",
     "browser-sync": "^2.27.7",
     "concurrently": "^7.4.0",
     "copy-webpack-plugin": "^11.0.0",
@@ -64,11 +64,11 @@
     "sitemap-webpack-plugin": "^1.1.1",
     "svg-sprite-loader": "^6.0.11",
     "svg4everybody": "^2.1.9",
-    "svgo-loader": "^3.0.0",
-    "wait-on": "^6.0.1",
+    "svgo-loader": "^4.0.0",
+    "wait-on": "^7.0.1",
     "webpack": "^5.68.0",
-    "webpack-cli": "^4.9.2",
+    "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.7.4",
-    "webpack-remove-empty-scripts": "^0.8.4"
+    "webpack-remove-empty-scripts": "^1.0.1"
   }
 }

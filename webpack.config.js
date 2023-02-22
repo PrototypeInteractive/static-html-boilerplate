@@ -90,7 +90,9 @@ module.exports = {
             }
         }),
         new SpriteLoaderPlugin(),
-        new RemoveEmptyScriptsPlugin(),
+        new RemoveEmptyScriptsPlugin({
+            stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS
+        }),
         new MiniCssExtractPlugin({
             filename: './css/[name].css'
         }),
