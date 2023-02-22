@@ -22,8 +22,6 @@ const buildpath = {
     images: './public/images/'
 };
 
-console.log('path = ', path.resolve('./public'));
-
 const webpackCommonConfig = {
     entry: {
         scripts: './assets/js/main.js',
