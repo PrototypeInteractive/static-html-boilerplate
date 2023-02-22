@@ -63,7 +63,6 @@
     "shx": "^0.3.4",
     "sitemap-webpack-plugin": "^1.1.1",
     "svg-sprite-loader": "^6.0.11",
-    "svg4everybody": "^2.1.9",
     "svgo-loader": "^4.0.0",
     "wait-on": "^7.0.1",
     "webpack": "^5.68.0",
