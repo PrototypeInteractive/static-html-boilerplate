@@ -1,10 +1,12 @@
-const auth = require('basic-auth');
-const compression = require('compression');
-const debug = require('debug')('api');
-const helmet = require('helmet');
-const serveStatic = require('serve-static');
+import auth from 'basic-auth';
+import compression from 'compression';
+import debugModule from 'debug';
+import helmet from 'helmet';
+import serveStatic from 'serve-static';
 
-module.exports = (app) => {
+const debug = debugModule('api');
+
+const init = (app) => {
     const production = process.env.NODE_ENV === 'production';
     app.use(
         helmet({
@@ -74,3 +76,5 @@ module.exports = (app) => {
     debug('Starting Server');
     debug(`Environment: ${process.env.NODE_ENV}`);
 };
+
+export default init;

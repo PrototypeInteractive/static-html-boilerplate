@@ -1,12 +1,14 @@
-const path = require('path');
+import path from 'path';
 
-const CopyPlugin = require('copy-webpack-plugin');
-const HandlebarsHelpers = require('handlebars-helpers')();
-const HandlebarsPlugin = require('handlebars-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+import CopyPlugin from 'copy-webpack-plugin';
+import HandlebarsHelpers from 'handlebars-helpers';
+import HandlebarsPlugin from 'handlebars-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import SitemapPluginModule from 'sitemap-webpack-plugin';
+import SpriteLoaderPlugin from 'svg-sprite-loader/plugin.js';
+import RemoveEmptyScriptsPlugin from 'webpack-remove-empty-scripts';
+
+const SitemapPlugin = SitemapPluginModule.default;
 
 // Update this with the list of html files in /pages/en directory
 const paths = [
@@ -14,13 +16,15 @@ const paths = [
 ];
 
 const buildpath = {
-    main: path.resolve(__dirname, 'public'),
-    js: path.resolve(__dirname, 'public/js'),
-    css: path.resolve(__dirname, 'public/css'),
-    images: path.resolve(__dirname, 'public/images/')
+    main: './public',
+    js: './public/js',
+    css: './public/css',
+    images: './public/images/'
 };
 
-module.exports = {
+console.log('path = ', path.resolve('./public'));
+
+const webpackCommonConfig = {
     entry: {
         scripts: './assets/js/main.js',
         'style-ltr': './assets/sass/style-ltr.scss',
@@ -28,8 +32,8 @@ module.exports = {
     },
     output: {
         filename: './js/[name].js',
-        path: buildpath.main,
-        publicPath: './public'
+        path: path.resolve(buildpath.main),
+        publicPath: path.resolve('./public')
     },
     module: {
         rules: [
@@ -79,11 +83,11 @@ module.exports = {
         new HandlebarsPlugin({
             entry: path.join(process.cwd(), 'pages', '**', '*.html'),
             output: path.join(process.cwd(), 'public', '[path]', '[name].html'),
-            data: path.join(__dirname, 'assets/data.json'),
+            data: './assets/data.json',
             partials: [
                 path.join(process.cwd(), 'partials', '**', '*.html')
             ],
-            getPartialId: (filePath) => filePath.match(`^${__dirname}/partials/(.+).html`).pop(),
+            getPartialId: (filePath) => filePath.match(`^${path.resolve('.')}/partials/(.+).html`).pop(),
             helpers: {
                 ...HandlebarsHelpers,
                 inlineArray: (...args) => args.slice(0, -1)
@@ -110,3 +114,6 @@ module.exports = {
         })
     ]
 };
+
+// eslint-disable-next-line import/no-unused-modules
+export default webpackCommonConfig;

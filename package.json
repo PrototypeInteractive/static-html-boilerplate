@@ -10,7 +10,8 @@
   "license": "ISC",
   "homepage": "https://github.com/prototypeinteractive/static-html-boilerplate#readme",
   "private": true,
-  "main": "server.js",
+  "type": "module",
+  "exports": "./server.js",
   "engines": {
     "node": ">=16.0.0"
   },

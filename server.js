@@ -1,1 +1,1 @@
-require('./server/index');
+import './server/index';

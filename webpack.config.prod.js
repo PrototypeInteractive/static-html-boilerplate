@@ -1,8 +1,8 @@
-const webpack = require('webpack');
+import webpack from 'webpack';
 
-const baseConfig = require('./webpack.config');
+import baseConfig from './webpack.config';
 
-module.exports = {
+const webpackProdConfig = {
     ...baseConfig,
     mode: 'production',
     devtool: 'source-map',
@@ -14,3 +14,6 @@ module.exports = {
         new webpack.optimize.ModuleConcatenationPlugin()
     ]
 };
+
+// eslint-disable-next-line import/no-unused-modules
+export default webpackProdConfig;

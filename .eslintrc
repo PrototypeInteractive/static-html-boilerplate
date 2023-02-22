@@ -125,7 +125,9 @@
                 "enforceForRenamedProperties": false
             }
         ],
-        "linebreak-style": [ "off" ],
+        "linebreak-style": [
+            "off"
+        ],
         "import/order": [
             "error",
             {
@@ -161,8 +163,24 @@
         "import/named": [
             "error"
         ],
+        "import/extensions": [
+            "error",
+            "never",
+            {
+                "js": "always"
+            }
+        ],
         "import/no-extraneous-dependencies": "off",
         "import/prefer-default-export": "off",
-        "no-secrets/no-secrets":["error",{"ignoreContent":["^Static.", "^Content.", "subscribeTo"]}]
+        "no-secrets/no-secrets": [
+            "error",
+            {
+                "ignoreContent": [
+                    "^Static.",
+                    "^Content.",
+                    "subscribeTo"
+                ]
+            }
+        ]
     }
 }

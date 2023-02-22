@@ -1,21 +1,35 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const glob = require('glob');
+import glob from 'glob';
 
 const dataFiles = glob.sync('assets/data/**/*.json');
 
 const result = {};
 
-dataFiles.forEach((filePath) => {
+dataFiles.forEach(async (filePath) => {
     const namespace = path.basename(path.dirname(filePath)).replace(/ /g, '-');
     const fileName = path.basename(filePath).replace(path.extname(filePath), '');
 
     // eslint-disable-next-line import/no-dynamic-require
-    const data = require(`../${filePath}`);
+    // const data = await import(`../${filePath}`);
+
+    const jsonText = fs.readFileSync(`./${filePath}`, { encoding: 'utf-8' });
+    let data = null;
+
+    try {
+        data = JSON.parse(jsonText);
+    } catch (ex) {
+        // eslint-disable-next-line no-console
+        console.error(`Failed to parse JSON file "${filePath}"`, ex);
+
+        throw ex;
+    }
 
     result[namespace] = result[namespace] || {};
     result[namespace][fileName] = data;
 });
 
-fs.writeFileSync(path.resolve(__dirname, '../assets/data.json'), JSON.stringify(result, null, 4), { flag: 'w' });
+const filePath = path.resolve('./assets/data.json');
+
+fs.writeFileSync(filePath, JSON.stringify(result, null, 4), { flag: 'w' });
