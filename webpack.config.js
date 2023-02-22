@@ -29,7 +29,7 @@ const webpackCommonConfig = {
         'style-rtl': './src/assets/sass/style-rtl.scss'
     },
     output: {
-        filename: './src/js/[name].js',
+        filename: './js/[name].js',
         path: path.resolve(buildpath.main),
         publicPath: path.resolve('./public')
     },
@@ -95,7 +95,7 @@ const webpackCommonConfig = {
             stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS
         }),
         new MiniCssExtractPlugin({
-            filename: './src/css/[name].css'
+            filename: './css/[name].css'
         }),
         new SitemapPlugin({
             base: 'https://prototype.net',
