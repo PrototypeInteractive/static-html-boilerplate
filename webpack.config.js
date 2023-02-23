@@ -16,10 +16,10 @@ const paths = [
 ];
 
 const buildpath = {
-    main: './public',
-    js: './public/js',
-    css: './public/css',
-    images: './public/images/'
+    main: '.',
+    js: './js',
+    css: './css',
+    images: './images/'
 };
 
 const webpackCommonConfig = {
@@ -30,7 +30,7 @@ const webpackCommonConfig = {
     },
     output: {
         filename: './js/[name].js',
-        path: path.resolve(buildpath.main),
+        path: path.resolve(`./public/${buildpath.main}`),
         publicPath: path.resolve('./public')
     },
     module: {
@@ -86,7 +86,7 @@ const webpackCommonConfig = {
             ],
             getPartialId: (filePath) => filePath.match(`^${path.resolve('.')}/src/partials/(.+).html`).pop(),
             helpers: {
-                ...HandlebarsHelpers,
+                ...HandlebarsHelpers(),
                 inlineArray: (...args) => args.slice(0, -1)
             }
         }),
