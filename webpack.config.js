@@ -62,7 +62,10 @@ const webpackCommonConfig = {
                             publicPath: '/'
                         }
                     },
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: { url: false }
+                    },
                     'postcss-loader',
                     'sass-loader'
                 ]
