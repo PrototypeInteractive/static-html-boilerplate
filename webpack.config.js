@@ -16,10 +16,10 @@ const paths = [
 ];
 
 const buildpath = {
-    main: './public',
-    js: './public/js',
-    css: './public/css',
-    images: './public/images/'
+    main: '.',
+    js: './js',
+    css: './css',
+    images: './images/'
 };
 
 const webpackCommonConfig = {
@@ -29,8 +29,8 @@ const webpackCommonConfig = {
         'style-rtl': './src/assets/sass/style-rtl.scss'
     },
     output: {
-        filename: './src/js/[name].js',
-        path: path.resolve(buildpath.main),
+        filename: './js/[name].js',
+        path: path.resolve(`./public/${buildpath.main}`),
         publicPath: path.resolve('./public')
     },
     module: {
@@ -62,7 +62,10 @@ const webpackCommonConfig = {
                             publicPath: '/'
                         }
                     },
-                    'css-loader',
+                    {
+                        loader: 'css-loader',
+                        options: { url: false }
+                    },
                     'postcss-loader',
                     'sass-loader'
                 ]
@@ -84,9 +87,9 @@ const webpackCommonConfig = {
             partials: [
                 path.join(process.cwd(), 'src', 'partials', '**', '*.html')
             ],
-            getPartialId: (filePath) => filePath.match(`^${path.resolve('.')}/src/partials/(.+).html`).pop(),
+            getPartialId: (filePath) => filePath.match(`^${path.resolve('.').replace(/\\/g, '/')}/src/partials/(.+).html`).pop(),
             helpers: {
-                ...HandlebarsHelpers,
+                ...HandlebarsHelpers(),
                 inlineArray: (...args) => args.slice(0, -1)
             }
         }),
@@ -95,7 +98,7 @@ const webpackCommonConfig = {
             stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS
         }),
         new MiniCssExtractPlugin({
-            filename: './src/css/[name].css'
+            filename: './css/[name].css'
         }),
         new SitemapPlugin({
             base: 'https://prototype.net',
