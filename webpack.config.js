@@ -87,7 +87,7 @@ const webpackCommonConfig = {
             partials: [
                 path.join(process.cwd(), 'src', 'partials', '**', '*.html')
             ],
-            getPartialId: (filePath) => filePath.match(`^${path.resolve('.')}/src/partials/(.+).html`).pop(),
+            getPartialId: (filePath) => filePath.match(`^${path.resolve('.').replace(/\\/g, '/')}/src/partials/(.+).html`).pop(),
             helpers: {
                 ...HandlebarsHelpers(),
                 inlineArray: (...args) => args.slice(0, -1)
